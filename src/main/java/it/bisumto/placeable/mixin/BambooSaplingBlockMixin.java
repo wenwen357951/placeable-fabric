@@ -1,7 +1,7 @@
 package it.bisumto.placeable.mixin;
 
 import it.bisumto.placeable.Placeable;
-import net.minecraft.block.BambooSaplingBlock;
+import net.minecraft.block.BambooShootBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.server.world.ServerWorld;
@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(BambooSaplingBlock.class)
+@Mixin(BambooShootBlock.class)
 public class BambooSaplingBlockMixin {
 
     // PLACEABLE
