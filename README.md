@@ -5,6 +5,8 @@
 
 [This mod hasn't updated it in a while](https://github.com/BisUmTo/placeable), so I forked a version and upgraded it.
 
+![Grass placed on weird blocks](https://cdn.modrinth.com/data/o3wjLmDn/images/3eb7e86e4f0d0077abef1214e6b7cda8a49fe1d7.png)
+
 **This small fabric mod allows you to place vegetation on almost all blocks.**
 
 # How to install
