@@ -20,12 +20,15 @@ public class Placeable implements ModInitializer {
         LOGGER.info("Mod loaded");
     }
 
-    public static boolean isValidFloor(WorldView world, BlockPos pos){
-        if(world.getChunk(pos).getStatus() != ChunkStatus.FULL)
+    public static boolean isValidFloor(WorldView world, BlockPos pos) {
+        if (world.getChunk(pos).getStatus() != ChunkStatus.FULL) {
             return false;
+        }
+
         return isValidFloor(world.getBlockState(pos.down()), world, pos.down());
     }
-    public static boolean isValidFloor(BlockState floor, BlockView world, BlockPos pos){
+
+    public static boolean isValidFloor(BlockState floor, BlockView world, BlockPos pos) {
         return Block.hasTopRim(world, pos) || floor.isIn(BlockTags.LEAVES) || floor.isOf(Blocks.DIRT_PATH);
     }
 }

@@ -16,8 +16,9 @@ public class DeadBushBlockMixin {
     // PLACEABLE
     @Inject(method = "canPlantOnTop", at = @At("HEAD"), cancellable = true)
     public void canPlantAnywhere(BlockState floor, BlockView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
-        if (Placeable.isValidFloor(floor, world, pos))
+        if (Placeable.isValidFloor(floor, world, pos)) {
             cir.setReturnValue(true);
+        }
     }
 
 }

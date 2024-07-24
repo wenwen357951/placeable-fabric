@@ -19,8 +19,9 @@ public class SaplingBlockMixin {
     @Inject(method = "randomTick", at = @At("HEAD"), cancellable = true)
     public void randomTickMixin(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
         BlockState floor = world.getBlockState(pos.down());
-        if (!floor.isIn(BlockTags.DIRT) && !floor.isOf(Blocks.FARMLAND))
+        if (!floor.isIn(BlockTags.DIRT) && !floor.isOf(Blocks.FARMLAND)) {
             ci.cancel();
+        }
     }
 
 }

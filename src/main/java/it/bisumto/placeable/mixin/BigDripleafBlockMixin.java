@@ -16,8 +16,8 @@ public class BigDripleafBlockMixin {
     // PLACEABLE
     @Inject(method = "canPlaceAt", at = @At("HEAD"), cancellable = true)
     public void canPlantAnywhere(BlockState state, WorldView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
-        if (Placeable.isValidFloor(world, pos))
+        if (Placeable.isValidFloor(world, pos)) {
             cir.setReturnValue(true);
+        }
     }
-
 }

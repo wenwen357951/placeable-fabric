@@ -31,8 +31,9 @@ public class CocoaBlockMixin {
     @Inject(method = "randomTick", at = @At("HEAD"), cancellable = true)
     public void randomTickMixin(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
         BlockState floor = world.getBlockState(pos.offset(state.get(FACING)));
-        if (!floor.isIn(BlockTags.JUNGLE_LOGS))
+        if (!floor.isIn(BlockTags.JUNGLE_LOGS)) {
             ci.cancel();
+        }
     }
 
 }
