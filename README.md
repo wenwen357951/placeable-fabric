@@ -5,13 +5,13 @@
 
 <h4 align="center">Source code of the Placeable Plants fabric mod.</h4>
 <p align="center">
-    <a src="https://www.codefactor.io/repository/github/wenwen357951/placeable-fabric" alt="CodeFactor Score">
-        <img src="https://www.codefactor.io/repository/github/wenwen357951/placeable-fabric/badge?style=for-the-badge">
+    <a href="https://www.codefactor.io/repository/github/wenwen357951/placeable-fabric">
+        <img src="https://www.codefactor.io/repository/github/wenwen357951/placeable-fabric/badge?style=for-the-badge" alt="CodeFactor Score">
     </a>
-    <a href="https://discord.gg/yeemo" alt="Discord invite link">
+    <a href="https://discord.gg/yeemo">
         <img src="https://img.shields.io/discord/1141595063567273995?style=for-the-badge" alt="Discord chat" />
     </a>
-    <a href="https://modrinth.com/mod/placeable-plants" alt="Modrinth Page">
+    <a href="https://modrinth.com/mod/placeable-plants">
         <img src="https://img.shields.io/modrinth/dt/placeable-plants?style=for-the-badge" alt="Modrinth downloads" />
     </a>
     <img src="https://img.shields.io/github/license/wenwen357951/placeable.svg?style=for-the-badge" alt="License" />
