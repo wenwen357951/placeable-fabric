@@ -8,6 +8,7 @@
     "BambooSaplingBlockMixin",
     "BigDripleafBlockMixin",
     "BigDripleafSteamBlockMixin",
+    "CactusBlockMixin",
     "CocoaBlockMixin",
     "CropBlockMixin",
     "DeadBushBlockMixin",
