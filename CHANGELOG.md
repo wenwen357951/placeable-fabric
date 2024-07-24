@@ -7,15 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Changed
+### Change
 
-- Update [README.md](https://github.com/wenwen357951/placeable-fabric/blob/main/README.md) link and some information.
+- Migrating build logic from Groovy to Kotlin
 
 ## [mc1.21-1.0.4] - 2024-07-22
 
 ### Added
 
 - Updated mod to support Minecraft 1.21.
+
+### Changed
+
+- Update [README.md](https://github.com/wenwen357951/placeable-fabric/blob/main/README.md) link and some information.
+
 
 [unreleased]: https://github.com/wenwen357951/placeable-fabric/compare/mc1.21-1.0.4...HEAD
 [mc1.21-1.0.4]: https://github.com/wenwen357951/placeable-fabric/releases/tag/mc1.21-1.0.4
