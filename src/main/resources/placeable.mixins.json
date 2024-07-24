@@ -13,6 +13,7 @@
     "CropBlockMixin",
     "DeadBushBlockMixin",
     "PlantBlockMixin",
+    "PropaguleBlockMixin",
     "SaplingBlockMixin",
     "SmallDripleafBlockMixin",
     "SugarCaneBlockMixin"
