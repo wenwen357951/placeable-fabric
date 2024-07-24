@@ -12,6 +12,7 @@
     "CocoaBlockMixin",
     "CropBlockMixin",
     "DeadBushBlockMixin",
+    "PitcherCropBlockMixin",
     "PlantBlockMixin",
     "PropaguleBlockMixin",
     "SaplingBlockMixin",
