@@ -16,6 +16,7 @@
     "PropaguleBlockMixin",
     "SaplingBlockMixin",
     "SmallDripleafBlockMixin",
+    "StemBlockMixin",
     "SugarCaneBlockMixin"
   ],
   "injectors": {
