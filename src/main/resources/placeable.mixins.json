@@ -12,7 +12,8 @@
     "CropBlockMixin",
     "DeadBushBlockMixin",
     "PlantBlockMixin",
-    "SaplingBlockMixin"
+    "SaplingBlockMixin",
+    "SmallDripleafBlockMixin"
   ],
   "injectors": {
     "defaultRequire": 1
