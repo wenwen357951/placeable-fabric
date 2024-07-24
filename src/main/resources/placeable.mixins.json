@@ -13,7 +13,8 @@
     "DeadBushBlockMixin",
     "PlantBlockMixin",
     "SaplingBlockMixin",
-    "SmallDripleafBlockMixin"
+    "SmallDripleafBlockMixin",
+    "SugarCaneBlockMixin"
   ],
   "injectors": {
     "defaultRequire": 1
