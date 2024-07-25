@@ -9,13 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Add Configuration functionality to control whether each plant can be placed anywhere.
 - Add tall grass and large ferns to recipe.
-- Add new plants Cactus can be placed anywhere
-- Add new plants Sugar Cane can be placed anywhere
-- Add new plants Small Dripleaf can be placed anywhere
+- Add new plants Cactus can be placed anywhere.
+- Add new plants Sugar Cane can be placed anywhere.
+- Add new plants Small Dripleaf can be placed anywhere.
 
 ### Fixed
 
+- Fixed an issue with bamboo growing on invalid ground when stacking two bamboos
 - Fix an issue where mangrove propagules could grow on illegal blocks.
 - Fix an issue where Nehter Wart could grow on illegal blocks.
 - Fix an issue where Sweet Berry Bush could grow on illegal blocks.
