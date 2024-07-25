@@ -53,7 +53,6 @@ public class Placeable implements ModInitializer {
         }
 
         String blockName = Registries.BLOCK.getId(block).toString().toLowerCase(Locale.ROOT);
-        System.out.println(blockName + " - " + config.getDisablePlants().contains(blockName));
         return config.getDisablePlants().contains(blockName);
     }
 
