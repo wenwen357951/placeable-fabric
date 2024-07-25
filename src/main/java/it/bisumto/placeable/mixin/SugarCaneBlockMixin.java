@@ -25,6 +25,10 @@ public class SugarCaneBlockMixin {
     // PLACEABLE
     @Inject(method = "canPlaceAt", at = @At("HEAD"), cancellable = true)
     public void canPlantAnywhere(BlockState blockState, WorldView world, BlockPos blockPos, CallbackInfoReturnable<Boolean> cir) {
+        if (Placeable.isDisable(blockState)) {
+            return;
+        }
+
         if (Placeable.isValidFloor(world, blockPos)) {
             cir.setReturnValue(true);
         }
@@ -33,6 +37,10 @@ public class SugarCaneBlockMixin {
     // PREVENT GROWING
     @Inject(method = "randomTick", at = @At("HEAD"), cancellable = true)
     public void randomTickMixin(BlockState blockState, ServerWorld world, BlockPos blockPos, Random random, CallbackInfo ci) {
+        if (Placeable.isDisable(blockState)) {
+            return;
+        }
+
         int i = 1;
         while (i < 3 && world.getBlockState(blockPos.down(i)).isOf(Blocks.SUGAR_CANE)) {
             ++i;

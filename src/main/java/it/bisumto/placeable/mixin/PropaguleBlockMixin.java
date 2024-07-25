@@ -1,5 +1,6 @@
 package it.bisumto.placeable.mixin;
 
+import it.bisumto.placeable.Placeable;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.PropaguleBlock;
@@ -25,6 +26,10 @@ public class PropaguleBlockMixin {
     // PREVENT GROWING
     @Inject(method = "randomTick", at = @At("HEAD"), cancellable = true)
     public void randomTickMixin(BlockState blockState, ServerWorld world, BlockPos blockPos, Random random, CallbackInfo ci) {
+        if (Placeable.isDisable(blockState)) {
+            return;
+        }
+
         if (blockState.get(HANGING)) {
             return;
         }

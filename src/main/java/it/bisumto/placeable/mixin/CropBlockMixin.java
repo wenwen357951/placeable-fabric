@@ -1,5 +1,6 @@
 package it.bisumto.placeable.mixin;
 
+import it.bisumto.placeable.Placeable;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.CropBlock;
@@ -16,11 +17,14 @@ public class CropBlockMixin {
 
     // PREVENT GROWING
     @Inject(method = "randomTick", at = @At("HEAD"), cancellable = true)
-    public void randomTickMixin(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
-        BlockState floor = world.getBlockState(pos.down());
+    public void randomTickMixin(BlockState blockState, ServerWorld world, BlockPos blockPos, Random random, CallbackInfo ci) {
+        if (Placeable.isDisable(blockState)) {
+            return;
+        }
+
+        BlockState floor = world.getBlockState(blockPos.down());
         if (!floor.isOf(Blocks.FARMLAND)) {
             ci.cancel();
         }
     }
-
 }

@@ -19,18 +19,26 @@ public class BambooSaplingBlockMixin {
 
     // PLACEABLE
     @Inject(method = "canPlaceAt", at = @At("HEAD"), cancellable = true)
-    public void canPlantAnywhere(BlockState state, WorldView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
-        if (Placeable.isValidFloor(world, pos)) {
+    public void canPlantAnywhere(BlockState blockState, WorldView world, BlockPos blockPos, CallbackInfoReturnable<Boolean> cir) {
+        if (Placeable.isDisable(blockState)) {
+            return;
+        }
+
+        if (Placeable.isValidFloor(world, blockPos)) {
             cir.setReturnValue(true);
         }
     }
 
     // PREVENT GROWING
     @Inject(method = "randomTick", at = @At("HEAD"), cancellable = true)
-    public void randomTickMixin(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
-        BlockState floor = world.getBlockState(pos.down());
-        if (!floor.isIn(BlockTags.BAMBOO_PLANTABLE_ON))
-            ci.cancel();
-    }
+    public void randomTickMixin(BlockState blockState, ServerWorld world, BlockPos blockPos, Random random, CallbackInfo ci) {
+        if (Placeable.isDisable(blockState)) {
+            return;
+        }
 
+        BlockState floor = world.getBlockState(blockPos.down());
+        if (!floor.isIn(BlockTags.BAMBOO_PLANTABLE_ON)) {
+            ci.cancel();
+        }
+    }
 }

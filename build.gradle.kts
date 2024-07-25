@@ -27,6 +27,11 @@ dependencies {
     modImplementation(libs.fabric.loader)
     // Fabric API
     modImplementation(libs.fabric.api)
+
+    /** Library **/
+    implementation(libs.gson)
+    compileOnly(libs.lombok)
+    annotationProcessor(libs.lombok)
 }
 
 tasks {
