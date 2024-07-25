@@ -1,32 +1,38 @@
 plugins {
-    id("maven-publish")
     alias(libs.plugins.fabric.loom)
+    id("maven-publish")
 }
 
-group = "it.bisumto"
-version = "1.0.4"
+group = project.findProperty("maven_group")!!
+version = project.findProperty("mod_version")!!
 
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(21))
     withJavadocJar()
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }
 
-repositories {
-    maven {
-        name = "Masa"
-        url = uri("https://masa.dy.fi/maven")
-    }
+base {
+    archivesName = project.findProperty("archives_base_name").toString()
 }
 
+// To change the versions see the libs.versions.toml
 dependencies {
-    // To change the versions see the libs.versions.toml
+    /** Minecraft **/
     minecraft(libs.minecraft)
+
+    /** Fabric **/
     mappings(libs.fabric.yarn)
     modImplementation(libs.fabric.loader)
+    // Fabric API
+    modImplementation(libs.fabric.api)
 }
 
 tasks {
     processResources {
+        inputs.property("version", project.version)
+
         filesMatching("fabric.mod.json") {
             expand(mapOf("version" to project.version))
         }
@@ -37,6 +43,8 @@ tasks {
     }
 
     jar {
-        from("LICENSE")
+        from("LICENSE") {
+            rename { "${it}_${project.base.archivesName.get()}" }
+        }
     }
 }
