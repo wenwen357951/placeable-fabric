@@ -1,11 +1,11 @@
-<center>
+<p align="center">
     <br>
     <img src="https://raw.githubusercontent.com/wenwen357951/placeable-fabric/main/src/main/resources/assets/placeable/icon.png" alt="Placeable Plants Logo" width="256">
     <br>
-</center>
+</p align="center">
 
-<center>
-    <h4>Source code of the Placeable Plants fabric mod.</h4>
+<h4 align="center">Source code of the Placeable Plants fabric mod.</h4>
+<p align="center">
     <a href="https://www.codefactor.io/repository/github/wenwen357951/placeable-fabric">
         <img src="https://www.codefactor.io/repository/github/wenwen357951/placeable-fabric/badge?style=for-the-badge" alt="CodeFactor Score">
     </a>
@@ -16,7 +16,7 @@
         <img src="https://img.shields.io/modrinth/dt/placeable-plants?style=for-the-badge" alt="Modrinth downloads" />
     </a>
     <img src="https://img.shields.io/github/license/wenwen357951/placeable.svg?style=for-the-badge" alt="License" />
-</center>
+</p align="center">
 
 ## 🪴 What is it?
 
@@ -32,10 +32,10 @@
 - This Mod allows you to place plants on any flat surface. To do that, just right-click on a flat surface.
 - Added recipes for Tall Grass and Large Fern
 
-<center>
+<p align="center">
     <img src="https://i.imgur.com/R6rnrUG.png" alt="The Tall Grass Recipe" width="30%">
     <img src="https://i.imgur.com/pz5Sfsx.png" alt="The Large Fern Recipe" width="30%">
-</center>
+</p align="center">
 
 ## 🎍 How to use?
 
@@ -73,7 +73,7 @@ The available plants are:
 The mod provides a `placeable.json` configuration file, which can be used to turn off whether various plants can be
 placed anywhere (default: all enabled)
 
-```json
+```
 placeable.json
 
 {
