@@ -58,7 +58,6 @@
     "//minecraft:pitcher_crop",
     "//minecraft:sweet_berry_bush",
     "//minecraft:nether_wart",
-    "//minecraft:lily_pad",
-    "//minecraft:pink_petals"
+    "//minecraft:lily_pad"
   ]
 }
