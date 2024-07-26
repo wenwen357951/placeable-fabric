@@ -8,11 +8,19 @@
     "BambooSaplingBlockMixin",
     "BigDripleafBlockMixin",
     "BigDripleafSteamBlockMixin",
+    "CactusBlockMixin",
     "CocoaBlockMixin",
     "CropBlockMixin",
     "DeadBushBlockMixin",
+    "NetherWartBlockMixin",
+    "PitcherCropBlockMixin",
     "PlantBlockMixin",
-    "SaplingBlockMixin"
+    "PropaguleBlockMixin",
+    "SaplingBlockMixin",
+    "SmallDripleafBlockMixin",
+    "StemBlockMixin",
+    "SugarCaneBlockMixin",
+    "SweetBerryBushBlockMixin"
   ],
   "injectors": {
     "defaultRequire": 1
