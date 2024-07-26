@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [mc1.21-1.1.0] - 2024-07-26
+
 ### Added
 
 - Add Configuration functionality to control whether each plant can be placed anywhere.
@@ -40,6 +42,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Update [README.md](https://github.com/wenwen357951/placeable-fabric/blob/main/README.md) link and some information.
 
-[unreleased]: https://github.com/wenwen357951/placeable-fabric/compare/mc1.21-1.0.4...HEAD
+[unreleased]: https://github.com/wenwen357951/placeable-fabric/compare/mc1.21-1.1.0...HEAD
+
+[mc1.21-1.1.0]: https://github.com/wenwen357951/placeable-fabric/compare/mc1.21-1.0.4...mc1.21-1.1.0
 
 [mc1.21-1.0.4]: https://github.com/wenwen357951/placeable-fabric/releases/tag/mc1.21-1.0.4
