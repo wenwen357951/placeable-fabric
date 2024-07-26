@@ -21,9 +21,9 @@
 ## 🪴 What is it?
 
 <center>
-    <p><b>This Fabric Mod allows you to place plants on almost all blocks.</b></p>
+    <p align="center"><b>This Fabric Mod allows you to place plants on almost all blocks.</b></p>
     <img src="https://cdn.modrinth.com/data/o3wjLmDn/images/3eb7e86e4f0d0077abef1214e6b7cda8a49fe1d7.png" alt="Grass placed on weird blocks">
-    <p><b>Fill your world with greenery!</b></p>
+    <p align="center"><b>Fill your world with greenery!</b></p>
     <img src="https://cdn.modrinth.com/data/cached_images/4a3d778f72ba04dcd8f00d58563dbbd4a9680d2a.jpeg" alt="Grass on a cobblestone street">
 </center>
 
