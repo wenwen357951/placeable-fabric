@@ -2,7 +2,7 @@
     <br>
     <img src="https://raw.githubusercontent.com/wenwen357951/placeable-fabric/main/src/main/resources/assets/placeable/icon.png" alt="Placeable Plants Logo" width="256">
     <br>
-</p align="center">
+</p>
 
 <h4 align="center">Source code of the Placeable Plants fabric mod.</h4>
 <p align="center">
@@ -16,7 +16,7 @@
         <img src="https://img.shields.io/modrinth/dt/placeable-plants?style=for-the-badge" alt="Modrinth downloads" />
     </a>
     <img src="https://img.shields.io/github/license/wenwen357951/placeable.svg?style=for-the-badge" alt="License" />
-</p align="center">
+</p>
 
 ## 🪴 What is it?
 
@@ -35,7 +35,7 @@
 <p align="center">
     <img src="https://i.imgur.com/R6rnrUG.png" alt="The Tall Grass Recipe" width="30%">
     <img src="https://i.imgur.com/pz5Sfsx.png" alt="The Large Fern Recipe" width="30%">
-</p align="center">
+</p>
 
 ## 🎍 How to use?
 
