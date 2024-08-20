@@ -2,22 +2,18 @@
   "schemaVersion": 1,
   "id": "placeable",
   "version": "${version}",
-
   "name": "Placeable",
   "description": "Allow to place vegetation on top of almost all blocks.",
   "authors": [
-    "WenWen_xD",
-    "BisUmTo"
+    "WenWen_xD"
   ],
   "contact": {
-    "homepage": "https://curseforge.com/minecraft/mc-mods/placeable",
-    "issues": "https://github.com/bisumto/placeable/issues",
-    "sources": "https://github.com/bisumto/placeable"
+    "homepage": "https://modrinth.com/mod/placeable-plants",
+    "issues": "https://github.com/wenwen357951/placeable-fabric/issues",
+    "sources": "https://github.com/wenwen357951/placeable-fabric"
   },
-
   "license": "MIT License",
   "icon": "assets/placeable/icon.png",
-
   "environment": "*",
   "entrypoints": {
     "main": [
@@ -27,7 +23,6 @@
   "mixins": [
     "placeable.mixins.json"
   ],
-
   "depends": {
     "fabricloader": ">=0.15.11",
     "fabric": "*",
