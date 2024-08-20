@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [mc1.21-1.1.1] - 2024-08-21
+
+### Added
+
+- Added red/brown mushroom plants that can be placed anywhere.
+- Added yaml file version control (for Dev)
+- Support Minecraft 1.21.1
+
+### Fixed
+
+- Fixed missing crops potatoes and carrots in configuration.
+
 ## [mc1.21-1.1.0] - 2024-07-26
 
 ### Added
@@ -42,7 +54,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Update [README.md](https://github.com/wenwen357951/placeable-fabric/blob/main/README.md) link and some information.
 
-[unreleased]: https://github.com/wenwen357951/placeable-fabric/compare/mc1.21-1.1.0...HEAD
+[unreleased]: https://github.com/wenwen357951/placeable-fabric/compare/mc1.21-1.1.1...HEAD
+
+[mc1.21-1.1.1]: https://github.com/wenwen357951/placeable-fabric/compare/mc1.21-1.1.0...mc1.21-1.1.1
 
 [mc1.21-1.1.0]: https://github.com/wenwen357951/placeable-fabric/compare/mc1.21-1.0.4...mc1.21-1.1.0
 
