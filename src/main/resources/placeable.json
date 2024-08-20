@@ -1,4 +1,6 @@
 {
+  "_comment": "DO NOT MODIFY THE VERSION VALUE!",
+  "version": 1,
   "HOW_TO_DISABLE_PLANTS!!!": [
     "Please remove the '//' at the beginning of the string.",
     "For example, to disable the ability to place cactus anywhere,",
@@ -58,6 +60,10 @@
     "//minecraft:pitcher_crop",
     "//minecraft:sweet_berry_bush",
     "//minecraft:nether_wart",
-    "//minecraft:lily_pad"
+    "//minecraft:lily_pad",
+    "//minecraft:carrots",
+    "//minecraft:potatoes",
+    "//minecraft:red_mushroom",
+    "//minecraft:brown_mushroom"
   ]
 }
