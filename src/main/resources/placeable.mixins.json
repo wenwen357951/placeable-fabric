@@ -12,6 +12,7 @@
     "CocoaBlockMixin",
     "CropBlockMixin",
     "DeadBushBlockMixin",
+    "MushroomPlantBlockMixin",
     "NetherWartBlockMixin",
     "PitcherCropBlockMixin",
     "PlantBlockMixin",
