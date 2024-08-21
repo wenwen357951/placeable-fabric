@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [mc1.21-1.1.1-HOTFIX] - 2024-08-21
+
+### Fixed
+
+- Null pointer error while loading configuration file!
+
 ## [mc1.21-1.1.1] - 2024-08-21
 
 ### Added
@@ -54,7 +60,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Update [README.md](https://github.com/wenwen357951/placeable-fabric/blob/main/README.md) link and some information.
 
-[unreleased]: https://github.com/wenwen357951/placeable-fabric/compare/mc1.21-1.1.1...HEAD
+[unreleased]: https://github.com/wenwen357951/placeable-fabric/compare/mc1.21-1.1.2...HEAD
+
+[mc1.21-1.1.1-HOTFIX]: https://github.com/wenwen357951/placeable-fabric/compare/mc1.21-1.1.1...mc1.21-1.1.2
 
 [mc1.21-1.1.1]: https://github.com/wenwen357951/placeable-fabric/compare/mc1.21-1.1.0...mc1.21-1.1.1
 
