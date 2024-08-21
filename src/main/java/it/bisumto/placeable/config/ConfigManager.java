@@ -1,6 +1,5 @@
 package it.bisumto.placeable.config;
 
-import com.google.gson.FormattingStyle;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
@@ -24,20 +23,23 @@ public class ConfigManager {
     private PlaceableConfig placeableConfig;
 
     public ConfigManager() {
-        this.placeableConfigFile = FabricLoader.getInstance().getConfigDir()
-                .resolve("placeable.json").toFile();
+        this.placeableConfigFile = FabricLoader
+                .getInstance()
+                .getConfigDir()
+                .resolve("placeable.json")
+                .toFile();
     }
 
     public void setup() {
-        this.loadOrExtract("/placeable.json");
+        this.loadOrExtract(false);
         if (this.migrationConfig()) {
             this.reload();
         }
     }
 
-    public void loadOrExtract(String filename) {
-        if (FileUtil.create(placeableConfigFile)) {
-            try (InputStream inputStream = Placeable.class.getResourceAsStream(filename)) {
+    public void loadOrExtract(boolean force) {
+        if (FileUtil.create(this.placeableConfigFile) || force) {
+            try (InputStream inputStream = Placeable.class.getResourceAsStream("/placeable.json")) {
                 if (inputStream != null) {
                     FileUtil.copy(inputStream, this.placeableConfigFile);
                 }
@@ -46,17 +48,6 @@ public class ConfigManager {
             }
         }
         this.reload();
-    }
-
-    public void reload() {
-        try {
-            Gson gson = new Gson();
-            JsonReader jsonReader = new JsonReader(new FileReader(placeableConfigFile));
-            this.placeableConfig = gson.fromJson(jsonReader, PlaceableConfig.class);
-        } catch (FileNotFoundException exception) {
-            Placeable.LOGGER.error("A problem occurred while read json by Gson.", exception);
-            this.placeableConfig = new PlaceableConfig();
-        }
     }
 
     public boolean migrationConfig() {
@@ -78,16 +69,30 @@ public class ConfigManager {
         return true;
     }
 
+    public void reload() {
+        try {
+            Gson gson = new Gson();
+            JsonReader jsonReader = new JsonReader(new FileReader(this.placeableConfigFile));
+            this.placeableConfig = gson.fromJson(jsonReader, PlaceableConfig.class);
+        } catch (FileNotFoundException exception) {
+            Placeable.LOGGER.error("A problem occurred while read json by Gson.", exception);
+            this.placeableConfig = new PlaceableConfig();
+        }
+
+        System.out.println("Config: " + this.placeableConfig);
+        if (this.placeableConfig == null) {
+            this.loadOrExtract(true);
+        }
+    }
+
     @SneakyThrows
     public void save() {
-        Gson gson = new GsonBuilder()
-                .setPrettyPrinting()
-                .create();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
         JsonWriter jsonWriter = new JsonWriter(
                 new FileWriter(placeableConfigFile)
         );
+        jsonWriter.setIndent("  ");
         String jsonString = gson.toJson(this.placeableConfig.disablePlants);
-        jsonWriter.setFormattingStyle(FormattingStyle.PRETTY);
         jsonWriter.beginObject()
                 .name("_comment").value("DO NOT MODIFY THE VERSION VALUE!")
                 .name("version").value(this.placeableConfig.configVersion)

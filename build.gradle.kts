@@ -8,9 +8,6 @@ version = project.findProperty("mod_version")!!
 
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(21))
-    withJavadocJar()
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
 }
 
 base {
