@@ -37,7 +37,9 @@ public class Placeable implements ModInitializer {
     }
 
     public static boolean isValidFloor(BlockState floor, BlockView world, BlockPos pos) {
-        return Block.hasTopRim(world, pos) || floor.isIn(BlockTags.LEAVES) || floor.isOf(Blocks.DIRT_PATH);
+        return (getConfig().placedWithoutTopRim || Block.hasTopRim(world, pos))
+                || floor.isIn(BlockTags.LEAVES)
+                || floor.isOf(Blocks.DIRT_PATH);
     }
 
     public static boolean isDisable(BlockState blockState) {
@@ -54,7 +56,7 @@ public class Placeable implements ModInitializer {
 
     public static boolean isDisable(Block block) {
         PlaceableConfig config = getConfig();
-        if (config == null) {
+        if (config == null || !config.enable) {
             return true;
         }
 

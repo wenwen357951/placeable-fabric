@@ -8,6 +8,10 @@ import java.util.*;
 @Config(name = Placeable.MODID)
 public class PlaceableConfig implements ConfigData {
 
+    public boolean enable = true;
+
+    public boolean placedWithoutTopRim = false;
+
     public Map<PlaceablePlants, Boolean> allowPlaceablePlants = new EnumMap<>(PlaceablePlants.class);
 
     public PlaceableConfig() {

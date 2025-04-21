@@ -1,0 +1,7 @@
+{
+  "config.placeable.category.general": "一般",
+  "config.placeable.option.enable": "啟用可放置植物",
+  "config.placeable.option.placed_without_top_rim": "允許放置在沒有頂邊的方塊",
+  "config.placeable.option.placed_without_top_rim.tooltip": "如果啟用，可能會發生懸浮植物，也可能導致未知的Bug產生！",
+  "config.placeable.category.allowed_plants": "可放置植物"
+}

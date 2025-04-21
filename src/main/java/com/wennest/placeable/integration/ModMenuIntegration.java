@@ -23,17 +23,51 @@ public class ModMenuIntegration implements ModMenuApi {
                     .setParentScreen(parent)
                     .setTitle(Text.literal(Placeable.MODID));
             ConfigEntryBuilder entryBuilder = builder.entryBuilder();
-            ConfigCategory category = builder.getOrCreateCategory(Text.literal("generic"));
+
+            // General Category
+            ConfigCategory genericCategory = builder.getOrCreateCategory(
+                    Text.translatable("config.placeable.category.general")
+            );
+            genericCategory.addEntry(entryBuilder
+                    .startBooleanToggle(
+                            Text.translatable("config.placeable.option.enable"),
+                            config.enable
+                    )
+                    .setDefaultValue(true)
+                    .setSaveConsumer(newValue -> config.enable = newValue)
+                    .build()
+            );
+            genericCategory.addEntry(entryBuilder
+                    .startBooleanToggle(
+                            Text.translatable("config.placeable.option.placed_without_top_rim"),
+                            config.placedWithoutTopRim
+                    )
+                    .setTooltip(
+                            Text.translatable("config.placeable.option.placed_without_top_rim.tooltip")
+                    )
+                    .setDefaultValue(false)
+                    .setSaveConsumer(newValue -> config.placedWithoutTopRim = newValue)
+                    .build()
+            );
+
+            // Allowed Plants Category
+            ConfigCategory allowedPlantsCategory = builder.getOrCreateCategory(
+                    Text.translatable("config.placeable.category.allowed_plants")
+            );
             for (PlaceablePlants plants : PlaceablePlants.values()) {
                 boolean current = config.allowPlaceablePlants.get(plants);
-                category.addEntry(entryBuilder
-                        .startBooleanToggle(Text.literal(plants.getTranslationName()), current)
+                allowedPlantsCategory.addEntry(entryBuilder
+                        .startBooleanToggle(
+                                Text.literal(plants.getTranslationName()),
+                                current
+                        )
                         .setDefaultValue(true)
                         .setSaveConsumer(newValue -> config.allowPlaceablePlants.put(plants, newValue))
                         .build()
                 );
             }
 
+            // Saving
             builder.setSavingRunnable(() ->
                     AutoConfig.getConfigHolder(PlaceableConfig.class).save()
             );

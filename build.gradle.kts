@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.fabric.loom)
-    id("maven-publish")
 }
 
 group = project.findProperty("maven_group")!!
@@ -37,13 +36,12 @@ java {
 }
 
 base {
-    archivesName = project.findProperty("archives_base_name").toString()
+    archivesName = project.property("archives_base_name").toString()
 }
 
 tasks {
     processResources {
         inputs.property("version", project.version)
-
         filesMatching("fabric.mod.json") {
             expand(mapOf("version" to project.version))
         }

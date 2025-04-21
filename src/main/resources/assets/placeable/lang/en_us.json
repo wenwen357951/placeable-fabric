@@ -1,0 +1,7 @@
+{
+  "config.placeable.category.general": "General",
+  "config.placeable.option.enable": "Enable Placeable Plants",
+  "config.placeable.option.placed_without_top_rim": "Allow placement on blocks without a top rim",
+  "config.placeable.option.placed_without_top_rim.tooltip": "If enabled, plants may float and unknown bugs may occur!",
+  "config.placeable.category.allowed_plants": "Allowed plants"
+}
