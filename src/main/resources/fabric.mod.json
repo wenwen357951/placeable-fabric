@@ -18,6 +18,9 @@
   "entrypoints": {
     "main": [
       "com.wennest.placeable.Placeable"
+    ],
+    "modmenu": [
+      "com.wennest.placeable.integration.ModMenuIntegration"
     ]
   },
   "mixins": [

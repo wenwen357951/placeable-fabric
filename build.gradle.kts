@@ -6,12 +6,9 @@ plugins {
 group = project.findProperty("maven_group")!!
 version = project.findProperty("mod_version")!!
 
-java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
-}
-
-base {
-    archivesName = project.findProperty("archives_base_name").toString()
+repositories {
+    maven("https://maven.shedaniel.me/")
+    maven("https://maven.terraformersmc.com/releases/")
 }
 
 // To change the versions see the libs.versions.toml
@@ -25,10 +22,22 @@ dependencies {
     // Fabric API
     modImplementation(libs.fabric.api)
 
+    /** Third Party **/
+    modApi(libs.cloth.config.fabric)
+    modApi(libs.modmenu)
+
     /** Library **/
     implementation(libs.gson)
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)
+}
+
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
+}
+
+base {
+    archivesName = project.findProperty("archives_base_name").toString()
 }
 
 tasks {

@@ -1,12 +1,11 @@
 package com.wennest.placeable;
 
-import com.wennest.placeable.config.ConfigManager;
-import com.wennest.placeable.config.PlaceableConfig;
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.registry.Registries;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
@@ -15,19 +14,17 @@ import net.minecraft.world.chunk.ChunkStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Locale;
+import java.util.Optional;
 
 
 public class Placeable implements ModInitializer {
     public static final String MODID = "placeable";
     public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
-    private static ConfigManager configManager;
 
     @Override
     public void onInitialize() {
         long loadTook = System.currentTimeMillis();
-        configManager = new ConfigManager();
-        configManager.setup();
+        AutoConfig.register(PlaceableConfig.class, GsonConfigSerializer::new);
         LOGGER.info("Mod loaded in {} ms!", System.currentTimeMillis() - loadTook);
     }
 
@@ -55,16 +52,17 @@ public class Placeable implements ModInitializer {
         return isDisable(world.getBlockState(blockPos));
     }
 
-    public static PlaceableConfig getConfig() {
-        return configManager.getPlaceableConfig();
-    }
-
     public static boolean isDisable(Block block) {
-        if (getConfig() == null) {
+        PlaceableConfig config = getConfig();
+        if (config == null) {
             return true;
         }
 
-        String blockName = Registries.BLOCK.getId(block).toString().toLowerCase(Locale.ROOT);
-        return getConfig().disablePlants.contains(blockName);
+        Optional<PlaceablePlants> placeablePlants = PlaceablePlants.findBy(block);
+        return placeablePlants.isEmpty() || !config.allowPlaceablePlants.getOrDefault(placeablePlants.get(), false);
+    }
+
+    public static PlaceableConfig getConfig() {
+        return AutoConfig.getConfigHolder(PlaceableConfig.class).get();
     }
 }
