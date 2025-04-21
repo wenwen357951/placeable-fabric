@@ -15,7 +15,7 @@
     <a href="https://modrinth.com/mod/placeable-plants">
         <img src="https://img.shields.io/modrinth/dt/placeable-plants?style=for-the-badge" alt="Modrinth downloads" />
     </a>
-    <img src="https://img.shields.io/github/license/wenwen357951/placeable.svg?style=for-the-badge" alt="License" />
+    <img src="https://img.shields.io/github/license/wenwen357951/placeable-fabric?style=for-the-badge" alt="GitHub License" />
 </p>
 
 ## 🪴 What is it?
