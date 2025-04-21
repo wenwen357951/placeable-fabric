@@ -1,4 +1,5 @@
 {
+  "mod.name": "Placeable",
   "config.placeable.category.general": "General",
   "config.placeable.option.enable": "Enable Placeable Plants",
   "config.placeable.option.placed_without_top_rim": "Allow placement on blocks without a top rim",

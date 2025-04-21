@@ -21,7 +21,7 @@ public class ModMenuIntegration implements ModMenuApi {
             PlaceableConfig config = AutoConfig.getConfigHolder(PlaceableConfig.class).getConfig();
             ConfigBuilder builder = ConfigBuilder.create()
                     .setParentScreen(parent)
-                    .setTitle(Text.literal(Placeable.MODID));
+                    .setTitle(Text.literal("Placeable"));
             ConfigEntryBuilder entryBuilder = builder.entryBuilder();
 
             // General Category

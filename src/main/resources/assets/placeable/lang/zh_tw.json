@@ -1,4 +1,5 @@
 {
+  "mod.name": "Placeable",
   "config.placeable.category.general": "一般",
   "config.placeable.option.enable": "啟用可放置植物",
   "config.placeable.option.placed_without_top_rim": "允許放置在沒有頂邊的方塊",
