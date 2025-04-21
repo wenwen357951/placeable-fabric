@@ -6,12 +6,13 @@
     "#"
   ],
   "key": {
-    "#": {
-      "item": "minecraft:fern"
-    }
+    "#": [
+      "minecraft:fern"
+    ]
   },
   "result": {
     "id": "minecraft:large_fern",
     "count": 1
-  }
+  },
+  "show_notification": true
 }

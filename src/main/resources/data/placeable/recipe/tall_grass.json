@@ -6,9 +6,9 @@
     "#"
   ],
   "key": {
-    "#": {
-      "item": "minecraft:short_grass"
-    }
+    "#": [
+      "minecraft:short_grass"
+    ]
   },
   "result": {
     "id": "minecraft:tall_grass",
