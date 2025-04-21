@@ -21,13 +21,6 @@ public class Placeable implements ModInitializer {
     public static final String MODID = "placeable";
     public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
 
-    @Override
-    public void onInitialize() {
-        long loadTook = System.currentTimeMillis();
-        AutoConfig.register(PlaceableConfig.class, GsonConfigSerializer::new);
-        LOGGER.info("Mod loaded in {} ms!", System.currentTimeMillis() - loadTook);
-    }
-
     public static boolean isValidFloor(WorldView world, BlockPos pos) {
         if (world.getChunk(pos).getStatus() != ChunkStatus.FULL) {
             return false;
@@ -66,5 +59,12 @@ public class Placeable implements ModInitializer {
 
     public static PlaceableConfig getConfig() {
         return AutoConfig.getConfigHolder(PlaceableConfig.class).get();
+    }
+
+    @Override
+    public void onInitialize() {
+        long loadTook = System.currentTimeMillis();
+        AutoConfig.register(PlaceableConfig.class, GsonConfigSerializer::new);
+        LOGGER.info("Mod loaded in {} ms!", System.currentTimeMillis() - loadTook);
     }
 }

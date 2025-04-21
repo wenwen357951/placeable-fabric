@@ -2,7 +2,6 @@ package com.wennest.placeable.integration;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
-import com.wennest.placeable.Placeable;
 import com.wennest.placeable.PlaceableConfig;
 import com.wennest.placeable.PlaceablePlants;
 import me.shedaniel.autoconfig.AutoConfig;
@@ -21,7 +20,7 @@ public class ModMenuIntegration implements ModMenuApi {
             PlaceableConfig config = AutoConfig.getConfigHolder(PlaceableConfig.class).getConfig();
             ConfigBuilder builder = ConfigBuilder.create()
                     .setParentScreen(parent)
-                    .setTitle(Text.literal("Placeable"));
+                    .setTitle(Text.translatable("mod.name"));
             ConfigEntryBuilder entryBuilder = builder.entryBuilder();
 
             // General Category

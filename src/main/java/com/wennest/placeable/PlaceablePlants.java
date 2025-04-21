@@ -101,10 +101,6 @@ public enum PlaceablePlants {
         this.block = block;
     }
 
-    public String getTranslationName() {
-        return I18n.translate(this.block.getTranslationKey());
-    }
-
     @NotNull
     public static Optional<PlaceablePlants> findBy(Block block) {
         for (PlaceablePlants plants : PlaceablePlants.values()) {
@@ -113,5 +109,9 @@ public enum PlaceablePlants {
             }
         }
         return Optional.empty();
+    }
+
+    public String getTranslationName() {
+        return I18n.translate(this.block.getTranslationKey());
     }
 }

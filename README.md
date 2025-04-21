@@ -9,7 +9,7 @@
     <a href="https://www.codefactor.io/repository/github/wenwen357951/placeable-fabric">
         <img src="https://www.codefactor.io/repository/github/wenwen357951/placeable-fabric/badge?style=for-the-badge" alt="CodeFactor Score">
     </a>
-    <a href="https://discord.gg/yeemo">
+    <a href="https://discord.gg/DdaCWYqmZt">
         <img src="https://img.shields.io/discord/1141595063567273995?style=for-the-badge" alt="Discord chat" />
     </a>
     <a href="https://modrinth.com/mod/placeable-plants">
@@ -30,11 +30,12 @@
 ## 🎉 Feature
 
 - This Mod allows you to place plants on any flat surface. To do that, just right-click on a flat surface.
-- Added recipes for Tall Grass and Large Fern
+- Added recipes for Tall Dry Grass, Tall Grass and Large Fern
 
 <p align="center">
-    <img src="https://i.imgur.com/R6rnrUG.png" alt="The Tall Grass Recipe" width="30%">
-    <img src="https://i.imgur.com/pz5Sfsx.png" alt="The Large Fern Recipe" width="30%">
+    <img src="https://raw.githubusercontent.com/wenwen357951/placeable-fabric/refs/heads/main/docs/img/recipe-tall-dry-grass.png" alt="The Tall Dry Grass Recipe" width="25%">
+    <img src="https://raw.githubusercontent.com/wenwen357951/placeable-fabric/refs/heads/main/docs/img/recipe-tall-grass.png" alt="The Tall Grass Recipe" width="25%">
+    <img src="https://raw.githubusercontent.com/wenwen357951/placeable-fabric/refs/heads/main/docs/img/recipe-large-fern.png" alt="The Large Fern Recipe" width="25%">
 </p>
 
 ## 🎍 How to use?
@@ -58,6 +59,7 @@ The available plants are:
 - Mangrove Propagule
 - Torchflowers
 - Pitcher Plant
+- ...
 - All Flowers
 - All Saplings
 - All Crops
@@ -70,24 +72,33 @@ The available plants are:
 
 ## 🛠️ Configuration
 
-The mod provides a `placeable.json` configuration file, which can be used to turn off whether various plants can be
-placed anywhere (default: all enabled)
+The mod allows you to control whether various plants can be placed anywhere (default: all enabled).
+
+The primary way to configure this is through the mod menu's settings panel.
+
+<img src="https://raw.githubusercontent.com/wenwen357951/placeable-fabric/refs/heads/main/docs/img/placeable-config-setting.png" alt="Grass placed on weird blocks">
+
+For advanced users, the `placeable.json` configuration file can also be directly modified as a secondary method.
 
 ```
-placeable.json
+config/placeable.json
 
 {
-    "HOW_TO_DISABLE_PLANTS!!!": [
-        "Please remove the '//' at the beginning of the string.",
-        "For example, to disable the ability to place cactus anywhere,",
-        "change '//minecraft:cactus' to 'minecraft:cactus'"
-    ],
-    "disable_plants": [
-        "minecraft:cactus",
-        "//minecraft:spruce_sapling",
-        ...
-        "//minecraft:lily_pad"
-    ]
+  // Enable or disable the mod.
+  "enable": true,
+
+  // Allow placement on blocks without a top rim.
+  "placedWithoutTopRim": false,
+
+  // Allow or disable specific plants.
+  "allowPlaceablePlants": {
+    "OAK_SAPLING": true,
+    "SPRUCE_SAPLING": true,
+    ...
+    "NETHER_SPROUTS": true,
+    "NETHER_WART": true,
+    "LILY_PAD": true
+  }
 }
 ```
 
