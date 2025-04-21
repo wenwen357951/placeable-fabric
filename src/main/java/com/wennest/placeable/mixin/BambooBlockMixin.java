@@ -1,15 +1,13 @@
-package it.bisumto.placeable.mixin;
+package com.wennest.placeable.mixin;
 
-import it.bisumto.placeable.Placeable;
+import com.wennest.placeable.Placeable;
+import net.minecraft.block.BambooBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.SugarCaneBlock;
-import net.minecraft.fluid.FluidState;
+import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.WorldView;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,9 +16,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-
-@Mixin(SugarCaneBlock.class)
-public class SugarCaneBlockMixin {
+@Mixin(BambooBlock.class)
+public class BambooBlockMixin {
 
     // PLACEABLE
     @Inject(method = "canPlaceAt", at = @At("HEAD"), cancellable = true)
@@ -37,31 +34,30 @@ public class SugarCaneBlockMixin {
     // PREVENT GROWING
     @Inject(method = "randomTick", at = @At("HEAD"), cancellable = true)
     public void randomTickMixin(BlockState blockState, ServerWorld world, BlockPos blockPos, Random random, CallbackInfo ci) {
-        if (Placeable.isDisable(blockState)) {
+        if (Placeable.isDisable(Blocks.BAMBOO_SAPLING)) {
             return;
         }
 
         int i = 1;
-        while (i < 3 && world.getBlockState(blockPos.down(i)).isOf(Blocks.SUGAR_CANE)) {
-            ++i;
+        while (world.getBlockState(blockPos.down(i)).isOf(Blocks.BAMBOO)) {
+            i++;
         }
 
-        BlockPos groundBlockPos = blockPos.down(i);
-        BlockState groundBlockState = world.getBlockState(groundBlockPos);
-        if (!groundBlockState.isIn(BlockTags.DIRT) && !groundBlockState.isIn(BlockTags.SAND)) {
+        BlockState floor = world.getBlockState(blockPos.down(i));
+        if (!floor.isIn(BlockTags.BAMBOO_PLANTABLE_ON)) {
             ci.cancel();
+        }
+    }
+
+    // PLACEMENT STATE
+    @Inject(method = "getPlacementState", at = @At("TAIL"), cancellable = true)
+    public void getPlacementStateMixin(ItemPlacementContext ctx, CallbackInfoReturnable<BlockState> cir) {
+        if (Placeable.isDisable(Blocks.BAMBOO_SAPLING)) {
             return;
         }
 
-        for (Direction direction : Direction.Type.HORIZONTAL) {
-            BlockState targetBlockState = world.getBlockState(groundBlockPos.offset(direction));
-            FluidState targetFluidState = world.getFluidState(groundBlockPos.offset(direction));
-
-            if (targetFluidState.isIn(FluidTags.WATER) || targetBlockState.isOf(Blocks.FROSTED_ICE)) {
-                return;
-            }
+        if (Placeable.isValidFloor(ctx.getWorld(), ctx.getBlockPos())) {
+            cir.setReturnValue(Blocks.BAMBOO_SAPLING.getDefaultState());
         }
-
-        ci.cancel();
     }
 }

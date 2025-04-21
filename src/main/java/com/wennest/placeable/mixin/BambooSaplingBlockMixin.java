@@ -1,10 +1,8 @@
-package it.bisumto.placeable.mixin;
+package com.wennest.placeable.mixin;
 
-import it.bisumto.placeable.Placeable;
-import net.minecraft.block.BambooBlock;
+import com.wennest.placeable.Placeable;
+import net.minecraft.block.BambooShootBlock;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
@@ -16,8 +14,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(BambooBlock.class)
-public class BambooBlockMixin {
+@Mixin(BambooShootBlock.class)
+public class BambooSaplingBlockMixin {
 
     // PLACEABLE
     @Inject(method = "canPlaceAt", at = @At("HEAD"), cancellable = true)
@@ -34,30 +32,13 @@ public class BambooBlockMixin {
     // PREVENT GROWING
     @Inject(method = "randomTick", at = @At("HEAD"), cancellable = true)
     public void randomTickMixin(BlockState blockState, ServerWorld world, BlockPos blockPos, Random random, CallbackInfo ci) {
-        if (Placeable.isDisable(Blocks.BAMBOO_SAPLING)) {
+        if (Placeable.isDisable(blockState)) {
             return;
         }
 
-        int i = 1;
-        while (world.getBlockState(blockPos.down(i)).isOf(Blocks.BAMBOO)) {
-            i++;
-        }
-
-        BlockState floor = world.getBlockState(blockPos.down(i));
+        BlockState floor = world.getBlockState(blockPos.down());
         if (!floor.isIn(BlockTags.BAMBOO_PLANTABLE_ON)) {
             ci.cancel();
-        }
-    }
-
-    // PLACEMENT STATE
-    @Inject(method = "getPlacementState", at = @At("TAIL"), cancellable = true)
-    public void getPlacementStateMixin(ItemPlacementContext ctx, CallbackInfoReturnable<BlockState> cir) {
-        if (Placeable.isDisable(Blocks.BAMBOO_SAPLING)) {
-            return;
-        }
-
-        if (Placeable.isValidFloor(ctx.getWorld(), ctx.getBlockPos())) {
-            cir.setReturnValue(Blocks.BAMBOO_SAPLING.getDefaultState());
         }
     }
 }

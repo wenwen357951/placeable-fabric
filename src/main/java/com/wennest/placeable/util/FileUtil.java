@@ -1,6 +1,6 @@
-package it.bisumto.placeable.util;
+package com.wennest.placeable.util;
 
-import it.bisumto.placeable.Placeable;
+import com.wennest.placeable.Placeable;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;

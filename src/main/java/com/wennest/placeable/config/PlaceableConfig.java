@@ -1,4 +1,4 @@
-package it.bisumto.placeable.config;
+package com.wennest.placeable.config;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Setter;

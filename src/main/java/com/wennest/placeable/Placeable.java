@@ -1,7 +1,7 @@
-package it.bisumto.placeable;
+package com.wennest.placeable;
 
-import it.bisumto.placeable.config.ConfigManager;
-import it.bisumto.placeable.config.PlaceableConfig;
+import com.wennest.placeable.config.ConfigManager;
+import com.wennest.placeable.config.PlaceableConfig;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;

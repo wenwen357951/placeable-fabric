@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "it.bisumto.placeable.mixin",
+  "package": "com.wennest.placeable.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "BambooBlockMixin",

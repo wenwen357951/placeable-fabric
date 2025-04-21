@@ -1,6 +1,6 @@
-package it.bisumto.placeable.mixin;
+package com.wennest.placeable.mixin;
 
-import it.bisumto.placeable.Placeable;
+import com.wennest.placeable.Placeable;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.MushroomPlantBlock;

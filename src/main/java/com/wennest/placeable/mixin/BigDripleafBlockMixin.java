@@ -1,7 +1,7 @@
-package it.bisumto.placeable.mixin;
+package com.wennest.placeable.mixin;
 
-import it.bisumto.placeable.Placeable;
-import net.minecraft.block.BigDripleafStemBlock;
+import com.wennest.placeable.Placeable;
+import net.minecraft.block.BigDripleafBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldView;
@@ -10,8 +10,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(BigDripleafStemBlock.class)
-public class BigDripleafSteamBlockMixin {
+@Mixin(BigDripleafBlock.class)
+public class BigDripleafBlockMixin {
 
     // PLACEABLE
     @Inject(method = "canPlaceAt", at = @At("HEAD"), cancellable = true)

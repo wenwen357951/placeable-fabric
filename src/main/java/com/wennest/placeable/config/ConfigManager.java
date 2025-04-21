@@ -1,11 +1,11 @@
-package it.bisumto.placeable.config;
+package com.wennest.placeable.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import it.bisumto.placeable.Placeable;
-import it.bisumto.placeable.util.FileUtil;
+import com.wennest.placeable.Placeable;
+import com.wennest.placeable.util.FileUtil;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;

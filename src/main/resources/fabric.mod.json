@@ -17,7 +17,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "it.bisumto.placeable.Placeable"
+      "com.wennest.placeable.Placeable"
     ]
   },
   "mixins": [
