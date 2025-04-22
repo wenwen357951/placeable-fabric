@@ -1,8 +1,0 @@
-{
-  "mod.name": "Placeable",
-  "config.placeable.category.general": "一般",
-  "config.placeable.option.enable": "激活可放置植物",
-  "config.placeable.option.placed_without_top_rim": "允许放置在没有顶边的方块",
-  "config.placeable.option.placed_without_top_rim.tooltip": "如果激活，可能会发生悬浮植物，也可能导致未知的Bug产生！",
-  "config.placeable.category.allowed_plants": "可放置植物"
-}
