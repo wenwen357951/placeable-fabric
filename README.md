@@ -76,7 +76,7 @@ The mod allows you to control whether various plants can be placed anywhere (def
 
 The primary way to configure this is through the mod menu's settings panel.
 
-<img src="https://raw.githubusercontent.com/wenwen357951/placeable-fabric/refs/heads/main/docs/img/placeable-config-setting.png" alt="Grass placed on weird blocks">
+<img src="https://raw.githubusercontent.com/wenwen357951/placeable-fabric/refs/heads/docs/docs/img/placeable-config-setting.png" alt="Grass placed on weird blocks">
 
 For advanced users, the `placeable.json` configuration file can also be directly modified as a secondary method.
 
