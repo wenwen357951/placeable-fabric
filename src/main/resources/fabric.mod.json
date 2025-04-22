@@ -27,11 +27,11 @@
     "placeable.mixins.json"
   ],
   "depends": {
-    "cloth-config2": ">=18.0.145",
-    "modmenu": "*",
+    "cloth-config2": ">=17.0.144",
+    "modmenu": ">=13.0.3",
     "fabric": "*",
     "java": ">=21",
-    "minecraft": ">=1.21.5",
+    "minecraft": ">=1.21.4",
     "fabricloader": ">=0.16.10"
   },
   "custom": {

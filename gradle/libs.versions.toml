@@ -1,16 +1,16 @@
 [versions]
 # Minecraft
-minecraft = "1.21.5"
+minecraft = "1.21.4"
 
 # Fabric
-fabric-yarn = "1.21.5+build.1"
+fabric-yarn = "1.21.4+build.8"
 fabric-loader = "0.16.13"
 fabric-loom = "1.10-SNAPSHOT"
-fabric-api = "0.121.0+1.21.5"
+fabric-api = "0.119.2+1.21.4"
 
 # Third-party
-cloth-config-fabric = "18.0.145"
-modmenu = "14.0.0-rc.2"
+cloth-config-fabric = "17.0.144"
+modmenu = "13.0.3"
 
 # Library
 gson = "2.11.0"

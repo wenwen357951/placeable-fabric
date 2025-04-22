@@ -32,12 +32,8 @@ public enum PlaceablePlants {
     // Grass
     SHORT_GRASS(Blocks.SHORT_GRASS),
     TALL_GRASS(Blocks.TALL_GRASS),
-    SHORT_DRY_GRASS(Blocks.SHORT_DRY_GRASS),
-    TALL_DRY_GRASS(Blocks.TALL_DRY_GRASS),
     FERN(Blocks.FERN),
     LARGE_FERN(Blocks.LARGE_FERN),
-    BUSH(Blocks.BUSH),
-    FIREFLY_BUSH(Blocks.FIREFLY_BUSH),
     DEAD_BUSH(Blocks.DEAD_BUSH),
 
     // Flowers
@@ -69,7 +65,6 @@ public enum PlaceablePlants {
 
     // Other
     PINK_PETALS(Blocks.PINK_PETALS),
-    WILDFLOWERS(Blocks.WILDFLOWERS),
 
     // Crops
     BAMBOO(Blocks.BAMBOO_SAPLING),
