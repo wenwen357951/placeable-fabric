@@ -33,9 +33,9 @@
 - Added recipes for Tall Dry Grass, Tall Grass and Large Fern
 
 <p align="center">
-    <img src="https://raw.githubusercontent.com/wenwen357951/placeable-fabric/refs/heads/main/docs/img/recipe-tall-dry-grass.png" alt="The Tall Dry Grass Recipe" width="25%">
-    <img src="https://raw.githubusercontent.com/wenwen357951/placeable-fabric/refs/heads/main/docs/img/recipe-tall-grass.png" alt="The Tall Grass Recipe" width="25%">
-    <img src="https://raw.githubusercontent.com/wenwen357951/placeable-fabric/refs/heads/main/docs/img/recipe-large-fern.png" alt="The Large Fern Recipe" width="25%">
+    <img src="https://raw.githubusercontent.com/wenwen357951/placeable-fabric/refs/heads/docs/docs/img/recipe-tall-dry-grass.png" alt="The Tall Dry Grass Recipe" width="30%">
+    <img src="https://raw.githubusercontent.com/wenwen357951/placeable-fabric/refs/heads/docs/docs/img/recipe-tall-grass.png" alt="The Tall Grass Recipe" width="30%">
+    <img src="https://raw.githubusercontent.com/wenwen357951/placeable-fabric/refs/heads/docs/docs/img/recipe-large-fern.png" alt="The Large Fern Recipe" width="30%">
 </p>
 
 ## 🎍 How to use?
