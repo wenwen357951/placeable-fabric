@@ -1,0 +1,219 @@
+# Release workflow for Placeable Plants — publishes one jar per supported
+# Minecraft version to Modrinth, CurseForge, and GitHub Releases.
+#
+# Triggering:
+#   - Push of a `v*` tag (e.g., `v1.2.0`) — the canonical release path. Tag
+#     creation locally with `git tag v1.2.0 && git push --tags`; this
+#     workflow then takes over.
+#   - `workflow_dispatch` — manual UI trigger for re-running a partially
+#     failed publish without re-tagging.
+#
+# Required GitHub Actions secrets (configure under Settings → Secrets):
+#   MODRINTH_TOKEN     — Modrinth API token with "create version" scope on
+#                        the project. Generate at
+#                        https://modrinth.com/settings/pats.
+#   CURSEFORGE_TOKEN   — CurseForge API token from
+#                        https://legacy.curseforge.com/account/api-tokens.
+#
+# Required GitHub Actions variables (Settings → Variables → Actions):
+#   MODRINTH_PROJECT_ID    — slug or numeric ID of the Modrinth project.
+#   CURSEFORGE_PROJECT_ID  — numeric project ID from CurseForge.
+#
+# `secrets.GITHUB_TOKEN` is provided by the runner — used by mc-publish to
+# create / update the GitHub Release. No manual configuration required.
+
+name: release
+
+on:
+    push:
+        tags:
+            - "v*"
+    # Allow manual re-runs from the Actions UI without retagging. Pick the
+    # ref to run against in the dispatch dialog.
+    workflow_dispatch:
+
+# Same-tag concurrency guard — prevents two simultaneous publishes if a tag
+# is force-pushed mid-run, which would race the platform side and leave one
+# of Modrinth / CurseForge with the older artifact.
+concurrency:
+    group: release-${{ github.ref }}
+    cancel-in-progress: false
+
+jobs:
+    release:
+        name: Publish ${{ matrix.minecraft }}
+        runs-on: ubuntu-latest
+
+        permissions:
+            # mc-publish needs write access to create the GitHub Release;
+            # nothing else is touched on the repo side.
+            contents: write
+
+        # Matrix-fan-out: one job per supported MC version. Each iteration
+        # builds only its own Stonecutter subproject (`:<mc>:build`) and
+        # publishes the resulting jar with platform metadata scoped to that
+        # single MC version. This keeps the Modrinth / CurseForge "game
+        # versions" field accurate per release entry rather than declaring
+        # one fat jar that claims to cover four MC versions it cannot
+        # actually handle simultaneously.
+        strategy:
+            # `fail-fast: false` — if 1.21.1 fails to publish (e.g., upstream
+            # platform 5xx), the other three still complete. The maintainer
+            # can then re-run the failed leg via workflow_dispatch.
+            fail-fast: false
+            matrix:
+                # Each matrix entry pairs the Stonecutter build target
+                # (`minecraft`) with the comma-separated list of Modrinth /
+                # CurseForge game-versions that single jar serves. The
+                # pairing is the contract documented in docs/VERSIONS.md
+                # "Per-version compatibility map" — 5 jars together cover
+                # all 12 patch versions in the 1.21 series.
+                #
+                # The 1.21.4 entry is dedicated because the 1.21.5 ("Spring
+                # to Life") source tree references Blocks.SHORT_DRY_GRASS /
+                # BUSH / WILDFLOWERS / etc., which do not exist in 1.21.4's
+                # vanilla Blocks class. Running the 1.21.5 jar on 1.21.4
+                # would throw NoSuchFieldError at class load. The 1.21.4
+                # chiseled output strips those entries via Stonecutter
+                # `//? if >=1.21.5` guards while preserving PALE_OAK_SAPLING
+                # and the EYEBLOSSOM variants (added in 1.21.4 itself).
+                #
+                # When adding a NEW build target (or extending an existing
+                # jar's coverage list because Mojang shipped another patch),
+                # update BOTH this matrix and docs/VERSIONS.md in the same
+                # commit.
+                include:
+                    -   minecraft: "1.21.1"
+                        game_versions: "1.21,1.21.1,1.21.2,1.21.3"
+                    -   minecraft: "1.21.4"
+                        game_versions: "1.21.4"
+                    -   minecraft: "1.21.5"
+                        game_versions: "1.21.5"
+                    -   minecraft: "1.21.8"
+                        game_versions: "1.21.6,1.21.7,1.21.8"
+                    -   minecraft: "1.21.11"
+                        game_versions: "1.21.9,1.21.10,1.21.11"
+
+        steps:
+            # Step 1 — Checkout. fetch-depth: 0 because mc-publish reads
+            # CHANGELOG entries via git log if changelog auto-generation is
+            # later enabled; cheap on this small repo and futureproof.
+            -   name: Checkout sources
+                uses: actions/checkout@v4
+                with:
+                    submodules: false
+                    fetch-depth: 0
+
+            # Step 2 — Java 21 toolchain (same as build.yml).
+            -   name: Set up JDK 21
+                uses: actions/setup-java@v4
+                with:
+                    distribution: temurin
+                    java-version: "21"
+
+            # Step 3 — Reuse the build workflow's Gradle cache. Same key
+            # shape so release runs hit the warm cache produced by the most
+            # recent build run on the tagged commit.
+            -   name: Cache Gradle dependencies
+                uses: actions/cache@v4
+                with:
+                    path: |
+                        ~/.gradle/caches
+                        ~/.gradle/wrapper
+                    key: gradle-${{ runner.os }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('gradle/libs.versions.toml', 'versions/*/gradle.properties') }}
+                    restore-keys: |
+                        gradle-${{ runner.os }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}-
+
+            -   name: Make gradlew executable
+                run: chmod +x ./gradlew
+
+            # Step 4 — Build only the active matrix version. `chiseledBuild`
+            # is deliberately not used here: each matrix leg is its own
+            # publishing unit, and re-running siblings on every leg would
+            # triple the wall-clock time without producing artifacts the
+            # current leg uses.
+            -   name: Build :${{ matrix.minecraft }}:build
+                run: ./gradlew :${{ matrix.minecraft }}:build --stacktrace
+
+            # Step 5 — Publish to Modrinth + CurseForge + GitHub Releases via
+            # mc-publish. The action handles all three platforms in one step,
+            # scoped to whatever non-empty token / id pair is supplied:
+            #
+            #   - Modrinth: `modrinth-id` + `modrinth-token`
+            #   - CurseForge: `curseforge-id` + `curseforge-token`
+            #   - GitHub Releases: `github-token` (always present in CI)
+            #
+            # The `version` field encodes both the human-readable mod
+            # version (from the tag, e.g., `v1.2.0`) and the MC version,
+            # matching the jar naming convention
+            # `placeable-plants-<version>+<mc>.jar` produced by Loom.
+            -   name: Publish ${{ matrix.minecraft }} to Modrinth / CurseForge / GitHub
+                # Third-party action — SHA-pinned so a hijacked tag cannot
+                # silently inject malicious code into the release pipeline.
+                # The SHA below dereferences `refs/tags/v3.3` of
+                # Kir-Antipov/mc-publish (now mirrored at
+                # github.com/Kira-NT/mc-publish) to its commit object.
+                # When bumping to v3.4+, update both the SHA and the comment.
+                uses: Kir-Antipov/mc-publish@995edadc13559a8b28d0b7e6571229f067ec7659 # v3.3
+                with:
+                    # ---- Artifact selection ----
+                    # Glob picks the freshly built jar for the matrix MC
+                    # version. Loom emits
+                    # `<archives_base_name>-<version>+<mc>.jar` (the version
+                    # string is composed in build.gradle.kts as
+                    # `${mod_version}+${minecraft}`), so the per-version
+                    # libs directory contains exactly one publishable jar.
+                    files: versions/${{ matrix.minecraft }}/build/libs/*.jar
+
+                    # ---- Modrinth ----
+                    modrinth-id: ${{ vars.MODRINTH_PROJECT_ID }}
+                    modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+
+                    # ---- CurseForge ----
+                    curseforge-id: ${{ vars.CURSEFORGE_PROJECT_ID }}
+                    curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+
+                    # ---- GitHub Releases ----
+                    # mc-publish creates the release if missing, otherwise
+                    # attaches the jar to the existing one keyed by the tag.
+                    # Per matrix leg one jar is attached; the legs together
+                    # populate a single GitHub Release.
+                    github-token: ${{ secrets.GITHUB_TOKEN }}
+
+                    # ---- Version metadata ----
+                    # Per-platform version label. `github.ref_name` is the
+                    # tag (`v1.2.0`) for tag pushes and the branch name for
+                    # workflow_dispatch.
+                    version: ${{ github.ref_name }}+${{ matrix.minecraft }}
+                    version-type: release
+                    name: Placeable Plants ${{ github.ref_name }} for Minecraft ${{ matrix.minecraft }}
+
+                    # ---- Game / loader compatibility ----
+                    loaders: fabric
+                    # Comma-separated list of Modrinth / CurseForge
+                    # game-versions that this jar declares compatibility
+                    # with. See docs/VERSIONS.md for the authoritative
+                    # mapping; each matrix entry's `game_versions` field is
+                    # the contract.
+                    game-versions: ${{ matrix.game_versions }}
+                    # Java versions supported at runtime — Java 21 across
+                    # the entire 1.21.x line.
+                    java: 21
+
+                    # ---- Mod dependencies ----
+                    # Declared on every platform that supports them. Format
+                    # is `slug(kind) | slug(kind)`; mc-publish translates
+                    # each entry to the platform-specific dependency model
+                    # (Modrinth project IDs, CurseForge slugs, etc.).
+                    dependencies: |
+                        fabric-api(required)
+                        cloth-config(required)
+                        modmenu(optional)
+
+                    # ---- Behavioural flags ----
+                    # Fail loudly if any of the three platforms reject the
+                    # upload — a half-published release is worse than no
+                    # release because users see divergent versions across
+                    # platforms.
+                    retry-attempts: 2
+                    retry-delay: 10000
