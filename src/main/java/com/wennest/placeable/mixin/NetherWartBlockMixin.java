@@ -12,12 +12,24 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+/**
+ * Targets {@link NetherWartBlock#randomTick}. Cancels growth unless the wart
+ * is rooted on soul sand, preserving vanilla nether-wart ecology even when
+ * the player has placed the wart on a relaxed floor.
+ *
+ * <p>{@code NetherWartBlock} owns its own {@code randomTick} growth logic;
+ * relaxing only {@code canPlaceAt} via {@link PlantBlockMixin} would let
+ * wart mature anywhere.
+ */
 @Mixin(NetherWartBlock.class)
 public class NetherWartBlockMixin {
-    // PREVENT GROWING
+    /**
+     * Cancels growth when the wart is not on soul sand, keeping vanilla
+     * ecology untouched after player-relaxed placement.
+     */
     @Inject(method = "randomTick", at = @At("HEAD"), cancellable = true)
-    public void randomTickMixin(BlockState blockState, ServerWorld world, BlockPos blockPos, Random random, CallbackInfo ci) {
-        if (Placeable.isDisable(blockState)) {
+    public void placeable$randomTickMixin(BlockState blockState, ServerWorld world, BlockPos blockPos, Random random, CallbackInfo ci) {
+        if (Placeable.isDisabled(blockState)) {
             return;
         }
 

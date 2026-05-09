@@ -13,13 +13,28 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+/**
+ * Targets {@link SaplingBlock#randomTick}. Cancels sapling growth (i.e.,
+ * tree spawning) when the sapling is rooted on anything other than
+ * dirt-tagged soil or farmland — preserving vanilla tree-ecology rules even
+ * when the player has placed the sapling on a relaxed floor (e.g.,
+ * cobblestone, stone slabs).
+ *
+ * <p>{@code SaplingBlock} owns its own {@code randomTick} growth pipeline;
+ * relaxing {@code canPlaceAt} transitively via {@link PlantBlockMixin} is
+ * not enough — without this guard a sapling on cobblestone would still grow
+ * into a full tree.
+ */
 @Mixin(SaplingBlock.class)
 public class SaplingBlockMixin {
 
-    // PREVENT GROWING
+    /**
+     * Cancels growth when the sapling is not on dirt-tagged soil or
+     * farmland; mirrors vanilla's implicit floor expectation.
+     */
     @Inject(method = "randomTick", at = @At("HEAD"), cancellable = true)
-    public void randomTickMixin(BlockState blockState, ServerWorld world, BlockPos blockPos, Random random, CallbackInfo ci) {
-        if (Placeable.isDisable(blockState)) {
+    public void placeable$randomTickMixin(BlockState blockState, ServerWorld world, BlockPos blockPos, Random random, CallbackInfo ci) {
+        if (Placeable.isDisabled(blockState)) {
             return;
         }
 

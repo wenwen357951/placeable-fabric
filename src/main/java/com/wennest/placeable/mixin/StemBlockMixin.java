@@ -12,12 +12,25 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+/**
+ * Targets {@link StemBlock#randomTick} (melon and pumpkin stems). Cancels
+ * growth when the stem is rooted on anything other than farmland —
+ * preventing player-placed stems on relaxed floors from advancing through
+ * their growth stages and spawning fruit on invalid soils.
+ *
+ * <p>{@code StemBlock} extends {@code PlantBlock} but defines its own
+ * {@code randomTick} growth pipeline; only intercepting {@code canPlaceAt}
+ * via {@link PlantBlockMixin} would still let stems mature on cobblestone.
+ */
 @Mixin(StemBlock.class)
 public class StemBlockMixin {
-    // PREVENT GROWING
+    /**
+     * Cancels growth when the stem is not on farmland, keeping vanilla
+     * fruit-spawning ecology intact even after player-relaxed placement.
+     */
     @Inject(method = "randomTick", at = @At("HEAD"), cancellable = true)
-    public void randomTickMixin(BlockState blockState, ServerWorld world, BlockPos blockPos, Random random, CallbackInfo ci) {
-        if (Placeable.isDisable(blockState)) {
+    public void placeable$randomTickMixin(BlockState blockState, ServerWorld world, BlockPos blockPos, Random random, CallbackInfo ci) {
+        if (Placeable.isDisabled(blockState)) {
             return;
         }
 

@@ -16,6 +16,19 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+/**
+ * Targets {@link PropaguleBlock#randomTick} (mangrove propagule). Cancels
+ * growth unless the propagule is hanging or rooted on dirt-tagged soil that
+ * is not dirt-path, preserving vanilla mangrove ecology even when the player
+ * places the propagule on a relaxed floor.
+ *
+ * <p>Although {@link PropaguleBlock} extends {@link net.minecraft.block.SaplingBlock},
+ * it <em>overrides</em> {@code randomTick} with hanging-aware logic that
+ * does NOT super-call {@code SaplingBlock.randomTick}. Therefore
+ * {@link SaplingBlockMixin}'s {@code randomTick} injection never fires for
+ * propagules — a dedicated mixin is needed to keep the growth-prevention
+ * guard active for both the hanging and planted phases.
+ */
 @Mixin(PropaguleBlock.class)
 public class PropaguleBlockMixin {
 
@@ -23,10 +36,14 @@ public class PropaguleBlockMixin {
     @Final
     public static BooleanProperty HANGING;
 
-    // PREVENT GROWING
+    /**
+     * Cancels growth when the propagule is planted on a non-dirt floor.
+     * Hanging propagules are allowed to mature normally (vanilla aging
+     * pipeline), as is dirt-tagged soil except dirt-path.
+     */
     @Inject(method = "randomTick", at = @At("HEAD"), cancellable = true)
-    public void randomTickMixin(BlockState blockState, ServerWorld world, BlockPos blockPos, Random random, CallbackInfo ci) {
-        if (Placeable.isDisable(blockState)) {
+    public void placeable$randomTickMixin(BlockState blockState, ServerWorld world, BlockPos blockPos, Random random, CallbackInfo ci) {
+        if (Placeable.isDisabled(blockState)) {
             return;
         }
 
