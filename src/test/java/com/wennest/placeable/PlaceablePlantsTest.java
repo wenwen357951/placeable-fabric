@@ -11,8 +11,6 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
-//? if >=1.21.5
-
 /**
  * Unit tests for the {@link PlaceablePlants} O(1) lookup table.
  *
