@@ -8,16 +8,17 @@
 #   - `workflow_dispatch` — manual UI trigger for re-running a partially
 #     failed publish without re-tagging.
 #
-# Required GitHub Actions secrets (configure under Settings → Secrets):
-#   MODRINTH_TOKEN     — Modrinth API token with "create version" scope on
-#                        the project. Generate at
-#                        https://modrinth.com/settings/pats.
-#   CURSEFORGE_TOKEN   — CurseForge API token from
-#                        https://legacy.curseforge.com/account/api-tokens.
-#
-# Required GitHub Actions variables (Settings → Variables → Actions):
+# Required GitHub Actions secrets (configure under Settings → Secrets →
+# Actions). All four Modrinth/CurseForge identifiers live as secrets — the
+# IDs themselves aren't sensitive, but storing them alongside the tokens
+# means a single page is the source of truth for "release configuration":
 #   MODRINTH_PROJECT_ID    — slug or numeric ID of the Modrinth project.
+#   MODRINTH_TOKEN         — Modrinth API token with "Create versions"
+#                            scope on the project. Generate at
+#                            https://modrinth.com/settings/pats.
 #   CURSEFORGE_PROJECT_ID  — numeric project ID from CurseForge.
+#   CURSEFORGE_TOKEN       — CurseForge API token from
+#                            https://legacy.curseforge.com/account/api-tokens.
 #
 # `secrets.GITHUB_TOKEN` is provided by the runner — used by mc-publish to
 # create / update the GitHub Release. No manual configuration required.
@@ -213,7 +214,18 @@ jobs:
                     files: versions/${{ matrix.minecraft }}/build/libs/*.jar
 
                     # ---- Modrinth ----
-                    modrinth-id: ${{ vars.MODRINTH_PROJECT_ID }}
+                    # Both fields read from `secrets.*` so all release
+                    # credentials live on a single GitHub Secrets page.
+                    # NOTE: when `modrinth-id` is empty mc-publish silently
+                    # falls back to the `homepage` URL in fabric.mod.json
+                    # (extracting `placeable-plants` from `modrinth.com/mod/
+                    # placeable-plants`). That fallback then tries to upload
+                    # to whichever project owns that slug on Modrinth — if
+                    # it's not the project the token belongs to, Modrinth
+                    # rejects with HTTP 401 "you don't have permission to
+                    # upload this version!", which masquerades as a token
+                    # problem when it's actually a missing/empty project ID.
+                    modrinth-id: ${{ secrets.MODRINTH_PROJECT_ID }}
                     modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
 
                     # ---- CurseForge (disabled) ----
