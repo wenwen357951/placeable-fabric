@@ -40,29 +40,30 @@
 
 ## 🎍 How to use?
 
-When you right-click on a floor block, with some plant it'll be plants
+When you right-click on a floor block while holding a plant, the plant is placed.
 
-The available plants are:
+The supported plant catalogue (full list — `(MC X.Y+)` markers indicate the first
+Minecraft version the entry is available on):
 
-- Grass and Tall Grass
-- Fern and Large Fern
-- Cactus
-- Sugar Cane
-- Bamboo
-- Dead Bush
-- Cocoa beans
-- Sweet Berries
-- Big / Small Dripleaf
-- Nether Wart
-- Nether Sprouts
-- Crimson / Warped Roots
-- Mangrove Propagule
-- Torchflowers
-- Pitcher Plant
-- ...
-- All Flowers
-- All Saplings
-- All Crops
+- **Saplings**: Oak, Spruce, Birch, Jungle, Acacia, Dark Oak, Cherry, Mangrove Propagule, Pale Oak (1.21.4+), Azalea,
+  Flowering Azalea.
+- **Flowers**: Dandelion, Poppy, Blue Orchid, Allium, Azure Bluet, Red / Orange / White / Pink Tulip, Oxeye Daisy,
+  Cornflower, Lily of the Valley, Wither Rose, Torchflower, Closed Eyeblossom (1.21.4+), Open Eyeblossom (1.21.4+).
+- **Tall flowers**: Sunflower, Lilac, Rose Bush, Peony, Pitcher Plant.
+- **Grass-family**: Short Grass, Tall Grass, Short Dry Grass (1.21.5+), Tall Dry Grass (1.21.5+), Bush (1.21.5+),
+  Firefly Bush (1.21.5+), Wildflowers (1.21.5+), Pink Petals, Leaf Litter (1.21.5+).
+- **Ferns**: Fern, Large Fern.
+- **Mushrooms / fungi**: Brown Mushroom, Red Mushroom, Crimson Fungus, Warped Fungus.
+- **Crops**: Wheat, Beetroot, Potatoes, Carrots, Pumpkin Stem, Melon Stem, Torchflower Crop, Pitcher Crop, Cocoa.
+- **Cacti / canes / bamboo**: Cactus, Cactus Flower (1.21.5+), Sugar Cane, Bamboo.
+- **Berries / dead vegetation**: Sweet Berry Bush, Dead Bush.
+- **Dripleaves / water plants**: Big Dripleaf, Small Dripleaf, Lily Pad.
+- **Nether**: Nether Wart, Nether Sprouts, Crimson Roots, Warped Roots.
+
+For the canonical, version-aware mapping (block → mixin → plant) see
+[`docs/MIXIN_COVERAGE.md`](docs/MIXIN_COVERAGE.md), the `PlaceablePlants` enum in
+[`src/main/java/com/wennest/placeable/PlaceablePlants.java`](src/main/java/com/wennest/placeable/PlaceablePlants.java),
+and [`docs/VERSIONS.md`](docs/VERSIONS.md) for the per-version compatibility map.
 
 ## 📦 How to install?
 
@@ -78,29 +79,67 @@ The primary way to configure this is through the mod menu's settings panel.
 
 <img src="https://raw.githubusercontent.com/wenwen357951/placeable-fabric/refs/heads/docs/docs/img/placeable-config-setting.png" alt="Grass placed on weird blocks">
 
-For advanced users, the `placeable.json` configuration file can also be directly modified as a secondary method.
+For advanced users, the `placeable.json` configuration file can also be directly modified as a secondary method. The
+actual file is plain JSON (no comments) — the snippet below is the real shape, abbreviated:
 
-```
-config/placeable.json
-
+```json
 {
-  // Enable or disable the mod.
-  "enable": true,
-
-  // Allow placement on blocks without a top rim.
-  "placedWithoutTopRim": false,
-
-  // Allow or disable specific plants.
-  "allowPlaceablePlants": {
-    "OAK_SAPLING": true,
-    "SPRUCE_SAPLING": true,
-    ...
-    "NETHER_SPROUTS": true,
-    "NETHER_WART": true,
-    "LILY_PAD": true
-  }
+    "enable": true,
+    "placedWithoutTopRim": false,
+    "allowPlaceablePlants": {
+        "OAK_SAPLING": true,
+        "SPRUCE_SAPLING": true,
+        "BIRCH_SAPLING": true,
+        "JUNGLE_SAPLING": true,
+        "ACACIA_SAPLING": true,
+        "DARK_OAK_SAPLING": true,
+        "MANGROVE_PROPAGULE": true,
+        "CHERRY_SAPLING": true,
+        "PALE_OAK_SAPLING": true,
+        "AZALEA": true,
+        "FLOWERING_AZALEA": true,
+        "BROWN_MUSHROOM": true,
+        "RED_MUSHROOM": true,
+        "WHEAT": true,
+        "POTATOES": true,
+        "CARROTS": true,
+        "BEETROOT": true,
+        "CACTUS": true,
+        "SUGAR_CANE": true,
+        "BAMBOO": true,
+        "NETHER_SPROUTS": true,
+        "NETHER_WART": true,
+        "LILY_PAD": true
+    }
 }
 ```
+
+`enable: false` disables the mod globally; `placedWithoutTopRim: true` lets
+plants drop the "floor must have a top rim" requirement (air is always
+rejected). Any plant in the `allowPlaceablePlants` map can be flipped to
+`false` to opt that single plant back to vanilla placement rules. Plants
+newly introduced in a later mod release default to `true` on first load;
+orphan keys (from a downgrade) are dropped.
+
+## 🧩 Supported Minecraft versions
+
+Placeable Plants 1.2.0 ships **5 jars** from a single source tree (managed
+by Stonecutter) and together they cover **all 12** patch versions in the
+1.21 family.
+
+| Built jar | Drop name          | Patch versions covered       |
+|-----------|--------------------|------------------------------|
+| 1.21.1    | Tricky Trials      | 1.21, 1.21.1, 1.21.2, 1.21.3 |
+| 1.21.4    | Bundles of Bravery | 1.21.4                       |
+| 1.21.5    | Spring to Life     | 1.21.5                       |
+| 1.21.8    | Chase the Skies    | 1.21.6, 1.21.7, 1.21.8       |
+| 1.21.11   | Mounts of Mayhem   | 1.21.9, 1.21.10, 1.21.11     |
+
+Each jar declares a tight `depends.minecraft` range so Fabric Loader
+automatically refuses to load it on the wrong patch. See
+[`docs/VERSIONS.md`](docs/VERSIONS.md) for the full per-version dependency
+matrix, the rationale for the dedicated 1.21.4 build target, and the
+future Mojmap (26.x) migration plan.
 
 ## 📌 Credits
 
