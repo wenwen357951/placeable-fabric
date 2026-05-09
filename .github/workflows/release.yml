@@ -127,6 +127,32 @@ jobs:
             -   name: Make gradlew executable
                 run: chmod +x ./gradlew
 
+            # Strip the leading `v` from a tag like `v1.2.0` → `1.2.0` so the
+            # version label published to Modrinth / CurseForge follows the
+            # semver convention without the git-tag `v` prefix. Falls back to
+            # `github.ref_name` itself for `workflow_dispatch` runs against a
+            # branch (no `v` to strip).
+            -   name: Compute mod version label
+                id: version
+                shell: bash
+                run: |
+                    REF="${GITHUB_REF_NAME}"
+                    MOD_VERSION="${REF#v}"
+                    echo "mod_version=${MOD_VERSION}" >> "$GITHUB_OUTPUT"
+
+                    # Detect semver pre-release suffix to drive mc-publish's
+                    # release channel. Any tag containing a `-` after the
+                    # numeric core (e.g., `1.2.0-alpha.1`, `1.2.0-rc.1`) is a
+                    # pre-release; `-alpha` -> alpha, anything else with a
+                    # hyphen -> beta, otherwise -> release.
+                    if [[ "${MOD_VERSION}" == *-alpha* ]]; then
+                        echo "version_type=alpha" >> "$GITHUB_OUTPUT"
+                    elif [[ "${MOD_VERSION}" == *-* ]]; then
+                        echo "version_type=beta" >> "$GITHUB_OUTPUT"
+                    else
+                        echo "version_type=release" >> "$GITHUB_OUTPUT"
+                    fi
+
             # Step 4 — Build only the active matrix version. `chiseledBuild`
             # is deliberately not used here: each matrix leg is its own
             # publishing unit, and re-running siblings on every leg would
@@ -181,12 +207,17 @@ jobs:
                     github-token: ${{ secrets.GITHUB_TOKEN }}
 
                     # ---- Version metadata ----
-                    # Per-platform version label. `github.ref_name` is the
-                    # tag (`v1.2.0`) for tag pushes and the branch name for
-                    # workflow_dispatch.
-                    version: ${{ github.ref_name }}+${{ matrix.minecraft }}
-                    version-type: release
-                    name: Placeable Plants ${{ github.ref_name }} for Minecraft ${{ matrix.minecraft }}
+                    # `steps.version.outputs.mod_version` is the tag with the
+                    # `v` prefix stripped (e.g., `v1.2.0` → `1.2.0`); the MC
+                    # version is appended so the published label disambiguates
+                    # which jar covers which build target.
+                    version: ${{ steps.version.outputs.mod_version }}+${{ matrix.minecraft }}
+                    # `version-type` is auto-detected from the semver
+                    # pre-release suffix of the tag: `-alpha*` → alpha,
+                    # `-rc*` / `-beta*` / any other hyphenated pre-release →
+                    # beta, plain `vX.Y.Z` → release.
+                    version-type: ${{ steps.version.outputs.version_type }}
+                    name: Placeable Plants ${{ steps.version.outputs.mod_version }} for Minecraft ${{ matrix.minecraft }}
 
                     # ---- Game / loader compatibility ----
                     loaders: fabric
