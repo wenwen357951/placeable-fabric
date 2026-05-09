@@ -195,17 +195,18 @@ jobs:
                     modrinth-id: ${{ vars.MODRINTH_PROJECT_ID }}
                     modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
 
-                    # ---- CurseForge (optional) ----
-                    # Both the project id and the token are optional. When the
-                    # `CURSEFORGE_TOKEN` secret or the `CURSEFORGE_PROJECT_ID`
-                    # variable are not configured on the repository, the values
-                    # below resolve to empty strings and mc-publish silently
-                    # skips the CurseForge upload, completing the run with just
-                    # Modrinth and the GitHub Release. To enable CurseForge
-                    # later, populate both repository settings — no workflow
-                    # change is required.
-                    curseforge-id: ${{ vars.CURSEFORGE_PROJECT_ID }}
-                    curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+                    # ---- CurseForge (disabled) ----
+                    # The CurseForge inputs are intentionally absent from this
+                    # `with:` block. mc-publish treats an empty-string token as
+                    # "publish to this platform" rather than "skip", so passing
+                    # `${{ secrets.CURSEFORGE_TOKEN }}` when the secret isn't
+                    # configured causes a 401 / ArgumentError instead of a
+                    # graceful skip. Add the two lines back when CurseForge is
+                    # ready, populating both `CURSEFORGE_PROJECT_ID` (variable)
+                    # and `CURSEFORGE_TOKEN` (secret) at the same time:
+                    #
+                    #     curseforge-id: ${{ vars.CURSEFORGE_PROJECT_ID }}
+                    #     curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
 
                     # ---- GitHub Releases ----
                     # mc-publish creates the release if missing, otherwise
