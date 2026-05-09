@@ -82,17 +82,38 @@ jobs:
                 # jar's coverage list because Mojang shipped another patch),
                 # update BOTH this matrix and docs/VERSIONS.md in the same
                 # commit.
+                #
+                # Game-version lists MUST be newline-separated (YAML pipe `|`
+                # block scalars), NOT comma-separated. mc-publish v3.3's
+                # `parseMultipleInputs` splits on `/\r?\n/g` by default — a
+                # comma-separated value is treated as ONE token, fed to the
+                # Mojang version-range parser, fails to parse as semver, and
+                # collapses to an empty list, producing
+                #   ArgumentError: At least one game version should be specified
+                # right before the Modrinth API call.
                 include:
                     -   minecraft: "1.21.1"
-                        game_versions: "1.21,1.21.1,1.21.2,1.21.3"
+                        game_versions: |
+                            1.21
+                            1.21.1
+                            1.21.2
+                            1.21.3
                     -   minecraft: "1.21.4"
-                        game_versions: "1.21.4"
+                        game_versions: |
+                            1.21.4
                     -   minecraft: "1.21.5"
-                        game_versions: "1.21.5"
+                        game_versions: |
+                            1.21.5
                     -   minecraft: "1.21.8"
-                        game_versions: "1.21.6,1.21.7,1.21.8"
+                        game_versions: |
+                            1.21.6
+                            1.21.7
+                            1.21.8
                     -   minecraft: "1.21.11"
-                        game_versions: "1.21.9,1.21.10,1.21.11"
+                        game_versions: |
+                            1.21.9
+                            1.21.10
+                            1.21.11
 
         steps:
             # Step 1 — Checkout. fetch-depth: 0 because mc-publish reads
@@ -230,20 +251,28 @@ jobs:
 
                     # ---- Game / loader compatibility ----
                     loaders: fabric
-                    # Comma-separated list of Modrinth / CurseForge
+                    # Newline-separated list of Modrinth / CurseForge
                     # game-versions that this jar declares compatibility
                     # with. See docs/VERSIONS.md for the authoritative
-                    # mapping; each matrix entry's `game_versions` field is
-                    # the contract.
+                    # mapping; each matrix entry's `game_versions` block
+                    # is the contract.
+                    #
+                    # NOTE: this MUST be newline-separated, not comma-
+                    # separated. mc-publish's input parser uses `/\r?\n/g`
+                    # as the default separator; a comma-joined value would
+                    # be passed as a single token to the Mojang range
+                    # resolver, fail to parse as semver, and collapse to an
+                    # empty list (Modrinth then rejects the request with
+                    # "At least one game version should be specified").
                     game-versions: ${{ matrix.game_versions }}
-                    # Disable mc-publish's default `releases`-only filter.
-                    # The default is `releases`, which queries the platform's
-                    # game-version list and keeps only stable releases — but
-                    # the v3.3-era classification logic does not always
-                    # recognise newer 1.21.x patch versions, leaving the
-                    # filtered list empty and aborting with "At least one
-                    # game version should be specified". `any` keeps the
-                    # explicit list above untouched.
+                    # Skip mc-publish's default version-range filtering. The
+                    # `releases | min-major | max-major` default trims our
+                    # explicit list to a single major-band entry, which on
+                    # multi-version legs (1.21.1, 1.21.8, 1.21.11) collapses
+                    # to a list Modrinth refuses. `any` short-circuits the
+                    # filter so the explicit list above passes through
+                    # untouched (`ANY = RELEASES | BETAS | ALPHAS`, no
+                    # MIN/MAX flags set).
                     game-version-filter: any
                     # Java versions supported at runtime — Java 21 across
                     # the entire 1.21.x line.
