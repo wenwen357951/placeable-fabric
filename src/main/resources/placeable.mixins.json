@@ -4,14 +4,15 @@
   "package": "com.wennest.placeable.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "AbstractBlockStateNaturalTickMixin",
     "BambooBlockMixin",
-    "BambooSaplingBlockMixin",
+    "BambooShootBlockMixin",
     "BigDripleafBlockMixin",
-    "BigDripleafSteamBlockMixin",
+    "BigDripleafStemBlockMixin",
+    "BoneMealItemMixin",
     "CactusBlockMixin",
     "CocoaBlockMixin",
     "CropBlockMixin",
-    "DryVegetationBlockMixin",
     "MushroomPlantBlockMixin",
     "NetherWartBlockMixin",
     "PitcherCropBlockMixin",
@@ -21,8 +22,9 @@
     "SmallDripleafBlockMixin",
     "StemBlockMixin",
     "SugarCaneBlockMixin",
-    "SweetBerryBushBlockMixin"
+    "SweetBerryBushBlockMixin"${leaf_litter_mixin_entry}
   ],
+  "client": [],
   "injectors": {
     "defaultRequire": 1
   }

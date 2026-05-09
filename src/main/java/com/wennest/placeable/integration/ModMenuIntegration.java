@@ -10,10 +10,26 @@ import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.resource.language.I18n;
 import net.minecraft.text.Text;
 
 @Environment(EnvType.CLIENT)
 public class ModMenuIntegration implements ModMenuApi {
+
+    /**
+     * Resolve a localized display name for a plant entry.
+     *
+     * <p>{@link I18n} is a client-only class
+     * ({@code net.minecraft.client.resource.language.I18n}); referencing it
+     * from the server-loadable {@link PlaceablePlants} enum would risk
+     * {@code NoClassDefFoundError} on a dedicated server. Keeping the lookup
+     * inside this {@code @Environment(EnvType.CLIENT)} class confines the
+     * client-only dependency to the client side.
+     */
+    private static String translateName(PlaceablePlants plant) {
+        return I18n.translate(plant.getBlock().getTranslationKey());
+    }
+
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
         return parent -> {
@@ -57,7 +73,7 @@ public class ModMenuIntegration implements ModMenuApi {
                 boolean current = config.allowPlaceablePlants.get(plants);
                 allowedPlantsCategory.addEntry(entryBuilder
                         .startBooleanToggle(
-                                Text.literal(plants.getTranslationName()),
+                                Text.literal(translateName(plants)),
                                 current
                         )
                         .setDefaultValue(true)
@@ -75,4 +91,3 @@ public class ModMenuIntegration implements ModMenuApi {
         };
     }
 }
-
