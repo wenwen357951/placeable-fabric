@@ -1,4 +1,14 @@
 {
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:registry_contains",
+      "registry": "minecraft:item",
+      "values": [
+        "minecraft:tall_dry_grass",
+        "minecraft:short_dry_grass"
+      ]
+    }
+  ],
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
@@ -6,9 +16,7 @@
     "#"
   ],
   "key": {
-    "#": [
-      "minecraft:short_dry_grass"
-    ]
+    "#": ${short_dry_grass_ingredient}
   },
   "result": {
     "id": "minecraft:tall_dry_grass",

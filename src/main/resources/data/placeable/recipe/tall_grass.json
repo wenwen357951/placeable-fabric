@@ -6,9 +6,7 @@
     "#"
   ],
   "key": {
-    "#": [
-      "minecraft:short_grass"
-    ]
+    "#": ${short_grass_ingredient}
   },
   "result": {
     "id": "minecraft:tall_grass",

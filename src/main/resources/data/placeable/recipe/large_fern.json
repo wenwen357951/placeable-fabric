@@ -6,9 +6,7 @@
     "#"
   ],
   "key": {
-    "#": [
-      "minecraft:fern"
-    ]
+    "#": ${fern_ingredient}
   },
   "result": {
     "id": "minecraft:large_fern",
