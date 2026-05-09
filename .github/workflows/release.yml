@@ -195,7 +195,15 @@ jobs:
                     modrinth-id: ${{ vars.MODRINTH_PROJECT_ID }}
                     modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
 
-                    # ---- CurseForge ----
+                    # ---- CurseForge (optional) ----
+                    # Both the project id and the token are optional. When the
+                    # `CURSEFORGE_TOKEN` secret or the `CURSEFORGE_PROJECT_ID`
+                    # variable are not configured on the repository, the values
+                    # below resolve to empty strings and mc-publish silently
+                    # skips the CurseForge upload, completing the run with just
+                    # Modrinth and the GitHub Release. To enable CurseForge
+                    # later, populate both repository settings — no workflow
+                    # change is required.
                     curseforge-id: ${{ vars.CURSEFORGE_PROJECT_ID }}
                     curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
 
