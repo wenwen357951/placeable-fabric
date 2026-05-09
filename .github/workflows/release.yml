@@ -236,6 +236,15 @@ jobs:
                     # mapping; each matrix entry's `game_versions` field is
                     # the contract.
                     game-versions: ${{ matrix.game_versions }}
+                    # Disable mc-publish's default `releases`-only filter.
+                    # The default is `releases`, which queries the platform's
+                    # game-version list and keeps only stable releases — but
+                    # the v3.3-era classification logic does not always
+                    # recognise newer 1.21.x patch versions, leaving the
+                    # filtered list empty and aborting with "At least one
+                    # game version should be specified". `any` keeps the
+                    # explicit list above untouched.
+                    game-version-filter: any
                     # Java versions supported at runtime — Java 21 across
                     # the entire 1.21.x line.
                     java: 21
