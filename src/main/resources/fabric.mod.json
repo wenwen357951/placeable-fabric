@@ -28,11 +28,13 @@
   ],
   "depends": {
     "cloth-config2": ">=${cloth_config_dep}",
-    "modmenu": "*",
     "fabric": "*",
     "java": ">=21",
     "minecraft": "${minecraft_dep}",
     "fabricloader": ">=0.16.10"
+  },
+  "recommends": {
+    "modmenu": "*"
   },
   "custom": {
     "modmenu": {

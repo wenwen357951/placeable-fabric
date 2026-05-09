@@ -259,7 +259,7 @@ jobs:
                     # `-rc*` / `-beta*` / any other hyphenated pre-release →
                     # beta, plain `vX.Y.Z` → release.
                     version-type: ${{ steps.version.outputs.version_type }}
-                    name: Placeable Plants ${{ steps.version.outputs.mod_version }} for Minecraft ${{ matrix.minecraft }}
+                    name: Placeable Plants ${{ steps.version.outputs.mod_version }}
 
                     # ---- Game / loader compatibility ----
                     loaders: fabric
@@ -295,10 +295,28 @@ jobs:
                     # is `slug(kind) | slug(kind)`; mc-publish translates
                     # each entry to the platform-specific dependency model
                     # (Modrinth project IDs, CurseForge slugs, etc.).
+                    #
+                    # ModMenu is marked `required` here even though it sits
+                    # under `recommends` in fabric.mod.json. Different layers,
+                    # different jobs:
+                    #
+                    #   - The platform `required` flag drives Modrinth /
+                    #     CurseForge launchers (Modrinth App, Prism, etc.) to
+                    #     auto-resolve and install ModMenu alongside this
+                    #     mod, matching the UX the project shipped before
+                    #     1.3.0 — users get the config screen out of the box.
+                    #   - The fabric.mod.json `recommends` keeps Fabric
+                    #     Loader from hard-failing at launch when ModMenu
+                    #     happens to be absent (manual installs, server
+                    #     environments, expert users who strip ModMenu).
+                    #
+                    # Net effect: launcher-driven installs always pick up
+                    # ModMenu; manual / atypical installs degrade gracefully
+                    # to "no config screen" instead of refusing to start.
                     dependencies: |
                         fabric-api(required)
                         cloth-config(required)
-                        modmenu(optional)
+                        modmenu(required)
 
                     # ---- Behavioural flags ----
                     # Fail loudly if any of the three platforms reject the
