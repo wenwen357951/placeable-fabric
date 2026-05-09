@@ -31,3 +31,20 @@ bin/
 # fabric
 
 run/
+
+# Local-only files (per-machine; do not commit)
+
+.claude/settings.local.json
+.ai-coding/
+
+# stonecutter per-version build logs
+
+versions/*/logs/
+
+# stonecutter per-version runtime artefacts produced by `runClient` /
+# `runServer` (Loom writes to `versions/<mc>/run/`, and Cloth Config drops
+# `versions/<mc>/config/placeable.json` on first launch). These are
+# per-developer / per-machine and must not be tracked.
+
+versions/*/run/
+versions/*/config/

@@ -1,40 +1,30 @@
+# DO NOT add per-MC coordinates here. See versions/<mc>/gradle.properties for
+# the multi-version build system.
+#
+# This catalog now holds ONLY:
+#   - the Fabric Loom plugin (version-agnostic — applies the same way across
+#     every Stonecutter subproject), and
+#   - truly version-agnostic libraries (gson, lombok) that do not vary across
+#     the supported MC family.
+#
+# Every other dependency (minecraft / yarn_mappings / fabric_loader /
+# fabric_api / cloth_config / modmenu) is resolved per-MC from
+# versions/<mc>/gradle.properties inside build.gradle.kts via `property("...")`
+# lookups.
+
 [versions]
-# Minecraft
-minecraft = "1.21.5"
+# Build plugin — version-agnostic.
+fabric-loom = "1.16.1"
 
-# Fabric
-fabric-yarn = "1.21.5+build.1"
-fabric-loader = "0.17.2"
-fabric-loom = "1.11-SNAPSHOT"
-fabric-api = "0.128.2+1.21.5"
-
-# Third-party
-cloth-config-fabric = "18.0.145"
-modmenu = "14.0.0-rc.2"
-
-# Library
+# Library — version-agnostic across the 1.21.x family.
 gson = "2.13.1"
 lombok = "1.18.38"
 
 
 [plugins]
-# Fabric
 fabric-loom = { id = "fabric-loom", version.ref = "fabric-loom" }
 
 
 [libraries]
-# Minecraft
-minecraft = { group = "com.mojang", name = "minecraft", version.ref = "minecraft" }
-
-# Fabirc
-fabric-yarn = { group = "net.fabricmc", name = "yarn", version.ref = "fabric-yarn" }
-fabric-loader = { group = "net.fabricmc", name = "fabric-loader", version.ref = "fabric-loader" }
-fabric-api = { group = "net.fabricmc.fabric-api", name = "fabric-api", version.ref = "fabric-api" }
-
-# Third-party
-cloth-config-fabric = { group = "me.shedaniel.cloth", name = "cloth-config-fabric", version.ref = "cloth-config-fabric" }
-modmenu = { group = "com.terraformersmc", name = "modmenu", version.ref = "modmenu" }
-
-# Library
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 lombok = { group = "org.projectlombok", name = "lombok", version.ref = "lombok" }
