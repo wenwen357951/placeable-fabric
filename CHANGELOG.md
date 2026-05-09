@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.2.0] - 2026-05-09
+## [1.3.0] - 2026-05-09
 
 This release is a comprehensive overhaul. It rebuilds the worldgen guard,
 switches the build to Stonecutter with five build targets, adds an automated
